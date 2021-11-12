@@ -1,4 +1,4 @@
-package de.fred.composedemo1
+package de.fred.composedemo1.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -27,16 +26,14 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import de.fred.composedemo1.Buttons.DefaultButton
+import de.fred.composedemo1.ui.utils.Navigator
+import de.fred.composedemo1.R
+import de.fred.composedemo1.ui.utils.Buttons.DefaultButton
 import de.fred.composedemo1.navigation.NavigationComponent
 import de.fred.composedemo1.ui.theme.ComposeDemo1Theme
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import de.fred.composedemo1.ui.utils.Buttons
+import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 
 class MainActivity : ComponentActivity() {
@@ -44,10 +41,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeDemo1Theme {
+                val navigator = get<Navigator>()
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
                     val navController = rememberNavController()
-                    NavigationComponent(navController = navController, navigator = Navigator())
+                    NavigationComponent(navController = navController, navigator = navigator)
                 }
             }
         }
@@ -89,11 +87,12 @@ fun clipcard() {
 fun BoxExample() {
     Box(Modifier.fillMaxSize()) {
         Text(text = "This is first text", modifier = Modifier.align(Alignment.TopCenter))
-        Box(Modifier
-            .align(Alignment.TopCenter)
-            .fillMaxHeight()
-            .width(50.dp)
-            .background(Color.Blue)
+        Box(
+            Modifier
+                .align(Alignment.TopCenter)
+                .fillMaxHeight()
+                .width(50.dp)
+                .background(Color.Blue)
         )
         Text("This is second text", modifier = Modifier.align(Alignment.Center))
         FloatingActionButton(
@@ -109,9 +108,10 @@ fun BoxExample() {
 
 @Composable
 fun TopRowHeader() {
-    Row(modifier = Modifier
-        .background(Color.Gray)
-        .fillMaxWidth()
+    Row(
+        modifier = Modifier
+            .background(Color.Gray)
+            .fillMaxWidth()
     ) {
         Text(text = "test")
     }
@@ -196,18 +196,22 @@ fun ContentComponent() {
         },
         content = {
             Box {
-                Spacer(modifier = Modifier
-                    .matchParentSize()
-                    .background(Color.LightGray))
+                Spacer(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .background(Color.LightGray)
+                )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.End,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     LeftComponent(modifier = Modifier.weight(2f))
-                    MiddleComponent(modifier = Modifier
-                        .paddingFromBaseline(top = 8.dp)
-                        .weight(1f), context = context)
+                    MiddleComponent(
+                        modifier = Modifier
+                            .paddingFromBaseline(top = 8.dp)
+                            .weight(1f), context = context
+                    )
                     RightListComponent(items = items, context = context)
                 }
             }

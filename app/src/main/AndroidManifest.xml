@@ -16,7 +16,7 @@
             android:label="@string/title_activity_second_screen"
             android:theme="@style/Theme.ComposeDemo1.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

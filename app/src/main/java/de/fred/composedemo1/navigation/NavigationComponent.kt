@@ -2,14 +2,13 @@ package de.fred.composedemo1.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import de.fred.composedemo1.HomeScreen
-import de.fred.composedemo1.Navigator
-import de.fred.composedemo1.SecondScreen
-import de.fred.composedemo1.SecondScreenViewModel
+import de.fred.composedemo1.ui.HomeScreen
+import de.fred.composedemo1.ui.utils.Navigator
+import de.fred.composedemo1.ui.SecondScreen
+import de.fred.composedemo1.secondfeature.ui.SecondFeatureView
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -33,6 +32,9 @@ fun NavigationComponent(
         }
         composable(Navigator.NavTarget.Detail.label) {
             SecondScreen()
+        }
+        composable(Navigator.NavTarget.SecondFeature.label){
+            SecondFeatureView()
         }
     }
 }

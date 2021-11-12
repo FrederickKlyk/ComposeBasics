@@ -1,4 +1,4 @@
-package de.fred.composedemo1
+package de.fred.composedemo1.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

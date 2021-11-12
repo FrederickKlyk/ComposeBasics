@@ -1,4 +1,4 @@
-package de.fred.composedemo1
+package de.fred.composedemo1.ui.utils
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -15,6 +15,7 @@ class Navigator {
 
     enum class NavTarget(val label: String) {
         Home("home"),
-        Detail("detail")
+        Detail("detail"),
+        SecondFeature("secondfeature")
     }
 }

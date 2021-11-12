@@ -1,4 +1,4 @@
-package de.fred.composedemo1
+package de.fred.composedemo1.ui.utils
 
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
