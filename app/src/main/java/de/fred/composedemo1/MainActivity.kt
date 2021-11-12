@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -26,8 +27,16 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import de.fred.composedemo1.Buttons.DefaultButton
+import de.fred.composedemo1.navigation.NavigationComponent
 import de.fred.composedemo1.ui.theme.ComposeDemo1Theme
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
 
 class MainActivity : ComponentActivity() {
@@ -37,10 +46,18 @@ class MainActivity : ComponentActivity() {
             ComposeDemo1Theme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    ContentComponent()
+                    val navController = rememberNavController()
+                    NavigationComponent(navController = navController, navigator = Navigator())
                 }
             }
         }
+    }
+}
+
+@Composable
+fun HomeScreen(navigator: Navigator) {
+    Button(onClick = { navigator.navigateTo(Navigator.NavTarget.Detail) }) {
+        Text(text = "Go to detail")
     }
 }
 

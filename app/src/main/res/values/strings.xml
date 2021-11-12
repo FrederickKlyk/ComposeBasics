@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ComposeDemo1</string>
     <string name="title_activity_main2">MainActivity2</string>
+    <string name="title_activity_second_screen">SecondScreen</string>
 </resources>
