@@ -2,9 +2,11 @@ package de.fred.composedemo1
 
 import android.app.Application
 import de.fred.composedemo1.di.uiModule
+import de.fred.composedemo1.navigation.di.navigationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import de.fred.composedemo1.secondfeature.di.uiModule as secondFeatureUiModule
+import de.fred.composedemo1.thirdfeature.di.uiModule as thirdFeatureUiModule
 
 class App : Application() {
 
@@ -13,7 +15,7 @@ class App : Application() {
 
         startKoin {
             androidContext(this@App)
-            modules(uiModule, secondFeatureUiModule)
+            modules(navigationModule, uiModule, secondFeatureUiModule, thirdFeatureUiModule)
         }
     }
 }

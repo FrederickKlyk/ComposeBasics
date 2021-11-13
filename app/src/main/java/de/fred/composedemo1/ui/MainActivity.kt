@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
-import de.fred.composedemo1.ui.utils.Navigator
+import de.fred.composedemo1.navigation.Navigator
 import de.fred.composedemo1.R
 import de.fred.composedemo1.ui.utils.Buttons.DefaultButton
 import de.fred.composedemo1.navigation.NavigationComponent

@@ -9,3 +9,5 @@ dependencyResolutionManagement {
 rootProject.name = "ComposeDemo1"
 include ':app'
 include ':feature:secondfeature'
+include ':feature:thirdfeature'
+include ':navigation'

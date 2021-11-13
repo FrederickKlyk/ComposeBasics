@@ -1,4 +1,4 @@
-package de.fred.composedemo1.ui.utils
+package de.fred.composedemo1.navigation
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
