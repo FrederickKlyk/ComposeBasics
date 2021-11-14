@@ -3,8 +3,9 @@ package de.fred.composedemo1.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import de.fred.composedemo1.navigation.Navigator
 
-class MainViewModel() : ViewModel() {
+class MainViewModel(val navigator: Navigator) : ViewModel() {
     val _items = MutableLiveData<MutableList<MainViewModelItem>>(mutableListOf())
     val items: LiveData<MutableList<MainViewModelItem>> = this._items
 
@@ -18,5 +19,9 @@ class MainViewModel() : ViewModel() {
                 MainViewModelItem("Name4", "City4"),
             )
         )
+    }
+
+    fun navigateToDetailsView(){
+        navigator.navigateTo(Navigator.NavTarget.Detail)
     }
 }

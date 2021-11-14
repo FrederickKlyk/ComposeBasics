@@ -27,12 +27,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
-import de.fred.composedemo1.navigation.Navigator
 import de.fred.composedemo1.R
-import de.fred.composedemo1.ui.utils.Buttons.DefaultButton
 import de.fred.composedemo1.navigation.NavigationComponent
+import de.fred.composedemo1.navigation.Navigator
 import de.fred.composedemo1.ui.theme.ComposeDemo1Theme
 import de.fred.composedemo1.ui.utils.Buttons
+import de.fred.composedemo1.ui.utils.Buttons.DefaultButton
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 
@@ -53,8 +53,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HomeScreen(navigator: Navigator) {
-    Button(onClick = { navigator.navigateTo(Navigator.NavTarget.Detail) }) {
+fun HomeScreen() {
+    val viewModel = get<MainViewModel>()
+    Button(onClick = viewModel::navigateToDetailsView) {
         Text(text = "Go to detail")
     }
 }
