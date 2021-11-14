@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import de.fred.composedemo1.secondfeature.navigation.addSecondFeatureGraph
+import de.fred.composedemo1.thirdfeature.navigation.addThirdFeatureGraph
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -29,7 +30,8 @@ fun NavigationComponent(
         navController = navController,
         startDestination = "start"
     ) {
-        addMainGraph(navigator)
+        addMainGraph()
         addSecondFeatureGraph()
+        addThirdFeatureGraph()
     }
 }

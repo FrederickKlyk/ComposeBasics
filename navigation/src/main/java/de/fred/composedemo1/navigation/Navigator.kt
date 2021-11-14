@@ -5,8 +5,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 
 class Navigator {
 
-    private val _sharedFlow =
-        MutableSharedFlow<NavTarget>(extraBufferCapacity = 1)
+    private val _sharedFlow = MutableSharedFlow<NavTarget>(extraBufferCapacity = 1)
     val sharedFlow = _sharedFlow.asSharedFlow()
 
     fun navigateTo(navTarget: NavTarget) {
@@ -16,6 +15,7 @@ class Navigator {
     enum class NavTarget(val label: String) {
         Home("home"),
         Detail("detail"),
-        SecondFeature("secondfeature")
+        SecondFeature("secondfeature"),
+        ThirdFeature("thirdfeature")
     }
 }

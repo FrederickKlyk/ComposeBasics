@@ -1,6 +1,7 @@
 package de.fred.composedemo1
 
 import android.app.Application
+import de.fred.composedemo1.di.externalNavigationModule
 import de.fred.composedemo1.di.uiModule
 import de.fred.composedemo1.navigation.di.navigationModule
 import org.koin.android.ext.koin.androidContext
@@ -15,7 +16,13 @@ class App : Application() {
 
         startKoin {
             androidContext(this@App)
-            modules(navigationModule, uiModule, secondFeatureUiModule, thirdFeatureUiModule)
+            modules(
+                navigationModule,
+                externalNavigationModule,
+                uiModule,
+                secondFeatureUiModule,
+                thirdFeatureUiModule
+            )
         }
     }
 }
