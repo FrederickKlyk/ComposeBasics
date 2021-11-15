@@ -11,7 +11,7 @@ fun ThirdFeatureView() {
     Column() {
         val viewModel: ThirdFeatureViewModel = get()
         Text("Hallo, dies ist das ThirdFeature Module")
-        Text("Das dritte Modul hat keine Abhängikeit zum zweiten Modul, navigation somit über externalNavigation Interface.")
+        Text("Das dritte Modul hat keine Abhängikeit zum zweiten Modul, navigation somit über Navigation Middlelayer möglich..")
         Button(onClick = viewModel::navigateToSecondFeatureModule) {
             Text("zurück zum zweiten Modul")
         }

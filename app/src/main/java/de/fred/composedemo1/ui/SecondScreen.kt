@@ -24,5 +24,5 @@ fun SecondScreen() {
 @Preview
 @Composable
 fun SecondScreenPreview() {
-   // SecondScreen()
+    SecondScreen()
 }
