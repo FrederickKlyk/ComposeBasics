@@ -65,59 +65,52 @@ fun HomeScreen() {
     }
 }
 
+
 @Composable
-fun Clipcard() {
-    Row {
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
-            contentDescription = "bild"
-        )
-        Column {
-            Text(
-                text = "hi",
-                fontSize = 18.sp,
-                fontStyle = FontStyle.Normal,
-                fontWeight = Bold,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-            Text(text = "was geht")
+fun ContentComponent(
+    items: MutableList<MainViewModelItem>? = null,
+) {
+    Log.d("viewmodel", "Size: ${items?.size}")
+    val context = LocalContext.current
+
+    Scaffold(
+        topBar = {
+            TopRowHeader()
+        },
+        content = {
+            Box {
+                Spacer(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .background(Color.LightGray)
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    LeftComponent(modifier = Modifier.weight(2f))
+                    MiddleComponent(
+                        modifier = Modifier
+                            .paddingFromBaseline(top = 8.dp)
+                            .weight(1f), context = context
+                    )
+                    RightListComponent(items = items, context = context)
+                }
+            }
+        },
+        floatingActionButton = {
+            Buttons.DefaultFAB(drawable = android.R.drawable.ic_input_add, color = Color.Red) {
+                showToast("Fab gedrückt", context = context)
+            }
         }
-    }
+    )
 }
 
 @Preview
 @Composable
-fun ClipcardPreview() {
-    Clipcard()
-}
-
-@Composable
-fun BoxExample() {
-    Box(Modifier.fillMaxSize()) {
-        Text(text = "This is first text", modifier = Modifier.align(Alignment.TopCenter))
-        Box(
-            Modifier
-                .align(Alignment.TopCenter)
-                .fillMaxHeight()
-                .width(50.dp)
-                .background(Color.Blue)
-        )
-        Text("This is second text", modifier = Modifier.align(Alignment.Center))
-        FloatingActionButton(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(12.dp),
-            onClick = {}
-        ) {
-            Text("+")
-        }
-    }
-}
-
-@Preview
-@Composable
-fun BoxExamplePreview() {
-    BoxExample()
+fun ContentComponentPreview() {
+    ContentComponent(mutableListOf(MainViewModelItem("test", "test2")))
 }
 
 @Composable
@@ -190,58 +183,67 @@ fun RightListComponent(items: MutableList<MainViewModelItem>?, context: Context)
     }
 }
 
+@Composable
+fun Clipcard() {
+    Row {
+        Image(
+            painter = painterResource(id = R.drawable.ic_launcher_background),
+            contentDescription = "bild"
+        )
+        Column {
+            Text(
+                text = "hi",
+                fontSize = 18.sp,
+                fontStyle = FontStyle.Normal,
+                fontWeight = Bold,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+            Text(text = "was geht")
+        }
+    }
+}
+
+@Preview
+@Composable
+fun ClipcardPreview() {
+    Clipcard()
+}
+
+@Composable
+fun BoxExample() {
+    Box(Modifier.fillMaxSize()) {
+        Text(text = "This is first text", modifier = Modifier.align(Alignment.TopCenter))
+        Box(
+            Modifier
+                .align(Alignment.TopCenter)
+                .fillMaxHeight()
+                .width(50.dp)
+                .background(Color.Blue)
+        )
+        Text("This is second text", modifier = Modifier.align(Alignment.Center))
+        FloatingActionButton(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(12.dp),
+            onClick = {}
+        ) {
+            Text("+")
+        }
+    }
+}
+
+@Preview
+@Composable
+fun BoxExamplePreview() {
+    BoxExample()
+}
+
 @Preview(showBackground = true)
 @Composable
 fun FABPreview() {
     Buttons.DefaultFAB(drawable = android.R.drawable.ic_input_add, color = Color.Red) {}
 }
 
-@Composable
-fun ContentComponent(
-    items: MutableList<MainViewModelItem>? = null,
-) {
-    Log.d("viewmodel", "Size: ${items?.size}")
-    val context = LocalContext.current
-
-    Scaffold(
-        topBar = {
-            TopRowHeader()
-        },
-        content = {
-            Box {
-                Spacer(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .background(Color.LightGray)
-                )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    LeftComponent(modifier = Modifier.weight(2f))
-                    MiddleComponent(
-                        modifier = Modifier
-                            .paddingFromBaseline(top = 8.dp)
-                            .weight(1f), context = context
-                    )
-                    RightListComponent(items = items, context = context)
-                }
-            }
-        },
-        floatingActionButton = {
-            Buttons.DefaultFAB(drawable = android.R.drawable.ic_input_add, color = Color.Red) {
-                showToast("Fab gedrückt", context = context)
-            }
-        }
-    )
-}
-
-@Preview
-@Composable
-fun ContentComponentPreview() {
-    ContentComponent(mutableListOf(MainViewModelItem("test", "test2")))
-}
 
 fun showToast(msg: String, context: Context) {
     Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
