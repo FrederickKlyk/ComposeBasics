@@ -55,18 +55,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun HomeScreen() {
     val viewModel = get<MainViewModel>()
+    viewModel.initialize()
+    val items by viewModel.items.observeAsState()
+
     Column {
         Button(onClick = viewModel::navigateToDetailsView) {
             Text(text = "Go to detail")
         }
-        ContentComponent()
+        ContentComponent(items)
     }
-}
-
-@Preview
-@Composable
-fun HomeScreenPreview(){
-    HomeScreen()
 }
 
 fun showToast(msg: String, context: Context) {
@@ -193,10 +190,9 @@ fun FABPreview() {
 }
 
 @Composable
-fun ContentComponent() {
-    val vm = getViewModel<MainViewModel>()
-    vm.initialize()
-    val items by vm.items.observeAsState()
+fun ContentComponent(
+    items: MutableList<MainViewModelItem>? = null
+) {
     Log.d("viewmodel", "Size: ${items?.size}")
     val context = LocalContext.current
 
@@ -232,4 +228,10 @@ fun ContentComponent() {
             }
         }
     )
+}
+
+@Preview
+@Composable
+fun ContentComponentPreview(){
+    ContentComponent(mutableListOf(MainViewModelItem("test", "test2")))
 }
