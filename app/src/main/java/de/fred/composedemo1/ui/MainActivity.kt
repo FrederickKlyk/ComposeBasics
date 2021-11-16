@@ -55,9 +55,18 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun HomeScreen() {
     val viewModel = get<MainViewModel>()
-    Button(onClick = viewModel::navigateToDetailsView) {
-        Text(text = "Go to detail")
+    Column {
+        Button(onClick = viewModel::navigateToDetailsView) {
+            Text(text = "Go to detail")
+        }
+        ContentComponent()
     }
+}
+
+@Preview
+@Composable
+fun HomeScreenPreview(){
+    HomeScreen()
 }
 
 fun showToast(msg: String, context: Context) {

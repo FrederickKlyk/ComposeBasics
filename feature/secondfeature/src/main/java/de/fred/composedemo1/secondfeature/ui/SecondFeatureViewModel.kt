@@ -1,36 +1,66 @@
 package de.fred.composedemo1.secondfeature.ui
 
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import de.fred.composedemo1.navigation.Navigator
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import de.fred.composedemo1.secondfeature.ui.SecondFeatureUIState.initial
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 class SecondFeatureViewModel(
     val stateHandle: SavedStateHandle,
     val navigator: Navigator,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(1)
-    val uiState = _uiState.asStateFlow()
+    private val _uiStateFlow = MutableStateFlow(1)
+    val uiStateFlow = _uiStateFlow.asStateFlow()
+
+    var uiState by mutableStateOf<SecondFeatureUIState>(initial)
 
     init {
-        _uiState.value = stateHandle.getLiveData("livedata", 0).value ?: 0
-        Log.d("state","STATE: ${stateHandle.getLiveData("livedata", 0).value ?: 0}")
+        _uiStateFlow.value = stateHandle.get<Int>("test") ?: 0
+        Log.d("state", "testSTATE: ${stateHandle.get("test") ?: 0}")
     }
 
     fun incrementUiStateInteger() {
-        _uiState.value += 1
+        _uiStateFlow.value += 1
         saveState()
     }
 
-    fun saveState() {
-        stateHandle.set("livedata", uiState.value)
-        Log.d("state","STATE: ${stateHandle.getLiveData("livedata", 0).value ?: 0}")
+    fun downloadFakeData() {
+        viewModelScope.launch() {
+            fakeRepo()
+                .onStart {
+                    uiState = SecondFeatureUIState.loading(0)
+                }.onCompletion {
+                    uiState = SecondFeatureUIState.loaded
+                }.catch {
+                    uiState = SecondFeatureUIState.error("Fehler beim Laden")
+                }.collect { progress ->
+                    uiState = SecondFeatureUIState.loading(progress)
+                }
+        }
+    }
+
+    private suspend fun fakeRepo() = flow {
+        listOf(10, 20, 30, 40, 50, 60, 70, 80, 90).forEach {
+            delay(100)
+            emit(it)
+        }
     }
 
     fun navigateToThirdFeatureModule() {
         navigator.navigateTo(Navigator.NavTarget.ThirdFeature)
+    }
+
+    private fun saveState() {
+        stateHandle.set("test", uiStateFlow.value)
+        Log.d("state", "testSTATE: ${stateHandle.get("test") ?: 0}")
     }
 }
