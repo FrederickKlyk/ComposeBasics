@@ -11,3 +11,5 @@ Best Practices with pure Compose UI
   
   -State based
   
+  -Cohesion in Composables
+  
