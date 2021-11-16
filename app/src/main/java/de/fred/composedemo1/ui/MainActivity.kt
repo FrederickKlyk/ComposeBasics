@@ -63,15 +63,13 @@ fun HomeScreen() {
             Text(text = "Go to detail")
         }
         ContentComponent(items)
+        Clipcard()
+        BoxExample()
     }
 }
 
-fun showToast(msg: String, context: Context) {
-    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-}
-
 @Composable
-fun clipcard() {
+fun Clipcard() {
     Row {
         Image(
             painter = painterResource(id = R.drawable.ic_launcher_background),
@@ -234,4 +232,8 @@ fun ContentComponent(
 @Composable
 fun ContentComponentPreview(){
     ContentComponent(mutableListOf(MainViewModelItem("test", "test2")))
+}
+
+fun showToast(msg: String, context: Context) {
+    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
 }
