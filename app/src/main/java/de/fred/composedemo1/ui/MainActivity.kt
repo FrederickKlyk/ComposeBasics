@@ -65,7 +65,6 @@ fun HomeScreen() {
     }
 }
 
-
 @Composable
 fun ContentComponent(
     items: MutableList<MainViewModelItem>? = null,
