@@ -34,7 +34,6 @@ import de.fred.composedemo1.ui.theme.ComposeDemo1Theme
 import de.fred.composedemo1.ui.utils.Buttons
 import de.fred.composedemo1.ui.utils.Buttons.DefaultButton
 import org.koin.androidx.compose.get
-import org.koin.androidx.compose.getViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,8 +62,6 @@ fun HomeScreen() {
             Text(text = "Go to detail")
         }
         ContentComponent(items)
-        Clipcard()
-        BoxExample()
     }
 }
 
@@ -88,6 +85,12 @@ fun Clipcard() {
     }
 }
 
+@Preview
+@Composable
+fun ClipcardPreview() {
+    Clipcard()
+}
+
 @Composable
 fun BoxExample() {
     Box(Modifier.fillMaxSize()) {
@@ -109,6 +112,12 @@ fun BoxExample() {
             Text("+")
         }
     }
+}
+
+@Preview
+@Composable
+fun BoxExamplePreview() {
+    BoxExample()
 }
 
 @Composable
@@ -189,7 +198,7 @@ fun FABPreview() {
 
 @Composable
 fun ContentComponent(
-    items: MutableList<MainViewModelItem>? = null
+    items: MutableList<MainViewModelItem>? = null,
 ) {
     Log.d("viewmodel", "Size: ${items?.size}")
     val context = LocalContext.current
@@ -230,7 +239,7 @@ fun ContentComponent(
 
 @Preview
 @Composable
-fun ContentComponentPreview(){
+fun ContentComponentPreview() {
     ContentComponent(mutableListOf(MainViewModelItem("test", "test2")))
 }
 
