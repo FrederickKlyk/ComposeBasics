@@ -7,13 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.SavedStateHandle
-import org.koin.androidx.compose.viewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
-fun SecondFeatureView() {
-    val viewModel: SecondFeatureViewModel by viewModel { parametersOf(SavedStateHandle()) }
+fun SecondFeatureView(viewModel: SecondFeatureViewModel) {
     val uiStateFlow by viewModel.uiStateFlow.collectAsState()
     val uiState = viewModel.uiState
 

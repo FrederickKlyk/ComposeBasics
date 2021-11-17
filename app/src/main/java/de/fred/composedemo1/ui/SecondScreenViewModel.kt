@@ -9,7 +9,7 @@ class SecondScreenViewModel(private val navigator: Navigator) : ViewModel() {
         return "Details12345"
     }
 
-    fun navigateToSecondFeature(){
-        navigator.navigateTo(Navigator.NavTarget.SecondFeature)
+    fun navigateToSecondFeature() {
+        navigator.navigateTo(Navigator.NavTarget.SecondModule)
     }
 }

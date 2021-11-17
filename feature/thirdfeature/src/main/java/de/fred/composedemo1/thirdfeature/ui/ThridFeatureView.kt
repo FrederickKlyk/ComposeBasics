@@ -8,8 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.get
 
 @Composable
-fun ThirdFeatureView() {
-    val viewModel: ThirdFeatureViewModel = get()
+fun ThirdFeatureView(viewModel: ThirdFeatureViewModel ) {
     ThirdFeatureContent(viewModel::navigateToSecondFeatureModule)
 }
 

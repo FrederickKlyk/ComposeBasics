@@ -5,17 +5,18 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import de.fred.composedemo1.navigation.Navigator
-import org.koin.androidx.compose.get
-import org.koin.androidx.compose.getViewModel
 
 
 @Composable
-fun SecondScreen() {
-    val viewModel = getViewModel<SecondScreenViewModel>()
+fun SecondScreen(viewModel: SecondScreenViewModel) {
+    SecondScreenContent(viewModel::getDetailText, viewModel::navigateToSecondFeature)
+}
+
+@Composable
+fun SecondScreenContent(getDetailText: () -> String, navigateToSecondFeature: () -> Unit) {
     Column() {
-        Text(text = viewModel.getDetailText())
-        Button(onClick = viewModel::navigateToSecondFeature){
+        Text(text = getDetailText())
+        Button(onClick = navigateToSecondFeature) {
             Text(text = "zum zweiten Feature Module")
         }
     }
@@ -23,6 +24,6 @@ fun SecondScreen() {
 
 @Preview
 @Composable
-fun SecondScreenPreview() {
-    SecondScreen()
+fun SecondScreenContentPreview() {
+    SecondScreenContent({ "test" }) { }
 }

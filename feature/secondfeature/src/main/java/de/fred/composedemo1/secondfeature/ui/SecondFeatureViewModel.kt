@@ -29,7 +29,7 @@ class SecondFeatureViewModel(
     }
 
     fun navigateToThirdFeatureModule() {
-        navigator.navigateTo(Navigator.NavTarget.ThirdFeature)
+        navigator.navigateTo(Navigator.NavTarget.ThirdModule)
     }
 
     fun incrementUiStateInteger() {

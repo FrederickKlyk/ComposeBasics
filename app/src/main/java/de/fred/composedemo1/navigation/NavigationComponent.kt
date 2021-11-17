@@ -28,7 +28,7 @@ fun NavigationComponent(
     // Navigation Directions
     NavHost(
         navController = navController,
-        startDestination = "start"
+        startDestination = Navigator.NavTarget.RootModule.label
     ) {
         addMainGraph()
         addSecondFeatureGraph()

@@ -6,6 +6,6 @@ import de.fred.composedemo1.navigation.Navigator
 class ThirdFeatureViewModel(private val navigator: Navigator) : ViewModel(){
 
     fun navigateToSecondFeatureModule(){
-        navigator.navigateTo(Navigator.NavTarget.SecondFeature)
+        navigator.navigateTo(Navigator.NavTarget.SecondModule)
     }
 }

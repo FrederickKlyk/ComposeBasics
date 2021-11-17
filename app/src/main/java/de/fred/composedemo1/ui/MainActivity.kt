@@ -52,8 +52,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HomeScreen() {
-    val viewModel = get<MainViewModel>()
+fun HomeScreen(viewModel: MainViewModel) {
     viewModel.initialize()
     val items by viewModel.items.observeAsState()
 

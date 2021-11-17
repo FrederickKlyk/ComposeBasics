@@ -21,7 +21,7 @@ class MainViewModel(private val navigator: Navigator) : ViewModel() {
         )
     }
 
-    fun navigateToDetailsView(){
+    fun navigateToDetailsView() {
         navigator.navigateTo(Navigator.NavTarget.Detail)
     }
 }
