@@ -14,8 +14,8 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class SecondFeatureViewModel(
-    val stateHandle: SavedStateHandle,
-    val navigator: Navigator,
+   private val stateHandle: SavedStateHandle,
+   private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _uiStateFlow = MutableStateFlow(1)
@@ -26,6 +26,10 @@ class SecondFeatureViewModel(
     init {
         _uiStateFlow.value = stateHandle.get<Int>("test") ?: 0
         Log.d("state", "testSTATE: ${stateHandle.get("test") ?: 0}")
+    }
+
+    fun navigateToThirdFeatureModule() {
+        navigator.navigateTo(Navigator.NavTarget.ThirdFeature)
     }
 
     fun incrementUiStateInteger() {
@@ -53,10 +57,6 @@ class SecondFeatureViewModel(
             delay(100)
             emit(it)
         }
-    }
-
-    fun navigateToThirdFeatureModule() {
-        navigator.navigateTo(Navigator.NavTarget.ThirdFeature)
     }
 
     private fun saveState() {

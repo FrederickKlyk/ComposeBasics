@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import de.fred.composedemo1.navigation.Navigator
 
-class MainViewModel(val navigator: Navigator) : ViewModel() {
-    val _items = MutableLiveData<MutableList<MainViewModelItem>>(mutableListOf())
+class MainViewModel(private val navigator: Navigator) : ViewModel() {
+    private val _items = MutableLiveData<MutableList<MainViewModelItem>>(mutableListOf())
     val items: LiveData<MutableList<MainViewModelItem>> = this._items
 
 

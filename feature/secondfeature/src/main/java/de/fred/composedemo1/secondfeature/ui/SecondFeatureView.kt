@@ -49,7 +49,7 @@ fun SecondFeatureContent(
                 Text("Progress: ${uiState.progress}")
             }
         }
-        Text("Hallo, dies ist das secondFeature Module, die Intnumber von stateFlow: ${uiStateFlow}")
+        Text("Hallo, dies ist das secondFeature Module, die Intnumber von stateFlow: $uiStateFlow")
         Button(onClick = incrementUiStateInteger) {
             Text("Erhöhe die Zahl")
         }
