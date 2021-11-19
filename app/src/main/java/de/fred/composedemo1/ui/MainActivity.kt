@@ -31,8 +31,8 @@ import de.fred.composedemo1.R
 import de.fred.composedemo1.navigation.NavigationComponent
 import de.fred.composedemo1.navigation.Navigator
 import de.fred.composedemo1.ui.theme.ComposeDemo1Theme
-import de.fred.composedemo1.ui.utils.Buttons
-import de.fred.composedemo1.ui.utils.Buttons.DefaultButton
+import de.fred.designsystem.buttons.Buttons.DefaultButton
+import de.fred.designsystem.buttons.Buttons.DefaultFAB
 import org.koin.androidx.compose.get
 
 class MainActivity : ComponentActivity() {
@@ -98,7 +98,7 @@ fun ContentComponent(
             }
         },
         floatingActionButton = {
-            Buttons.DefaultFAB(drawable = android.R.drawable.ic_input_add, color = Color.Red) {
+            DefaultFAB(drawable = android.R.drawable.ic_input_add, color = Color.Red) {
                 showToast("Fab gedrückt", context = context)
             }
         }
@@ -239,7 +239,7 @@ fun BoxExamplePreview() {
 @Preview(showBackground = true)
 @Composable
 fun FABPreview() {
-    Buttons.DefaultFAB(drawable = android.R.drawable.ic_input_add, color = Color.Red) {}
+    DefaultFAB(drawable = android.R.drawable.ic_input_add, color = Color.Red) {}
 }
 
 

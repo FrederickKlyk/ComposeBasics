@@ -1,4 +1,4 @@
-package de.fred.composedemo1.ui.utils
+package de.fred.designsystem.buttons
 
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -18,7 +18,7 @@ object Buttons {
     }
 
     @Composable
-    fun DefaultFAB(drawable: Int, color: Color, onButtonClickCallback: () -> Unit) {
+    fun DefaultFAB(drawable: Int, color: Color = Color.Red, onButtonClickCallback: () -> Unit) {
         FloatingActionButton(
             onClick = onButtonClickCallback,
             backgroundColor = color,
