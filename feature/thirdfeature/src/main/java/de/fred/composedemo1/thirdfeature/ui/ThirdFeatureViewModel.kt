@@ -1,22 +1,11 @@
 package de.fred.composedemo1.thirdfeature.ui
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
 import de.fred.composedemo1.navigation.Navigator
+import de.fred.designsystem.buttons.base.BaseViewModel
 
-class ThirdFeatureViewModel(private val navigator: Navigator) : ViewModel(){
+class ThirdFeatureViewModel(private val navigator: Navigator) : BaseViewModel<ThirdFeatureViewModel>() {
 
-    init {
-        Log.d("ThirdFeatureViewModel", "ThirdFeatureViewModel wurde initialisiert...")
-
-    }
-
-    fun navigateToSecondFeatureModule(){
+    fun navigateToSecondFeatureModule() {
         navigator.navigateTo(Navigator.NavTarget.SecondModule)
-    }
-
-    override fun onCleared() {
-        Log.d("ThirdFeatureViewModel", "ThirdFeatureViewModel wurde abgeräumt...")
-        super.onCleared()
     }
 }

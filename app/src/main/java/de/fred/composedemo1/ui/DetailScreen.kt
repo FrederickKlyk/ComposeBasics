@@ -8,15 +8,15 @@ import androidx.compose.ui.tooling.preview.Preview
 
 
 @Composable
-fun SecondScreen(viewModel: SecondScreenViewModel) {
-    SecondScreenContent(viewModel::getDetailText, viewModel::navigateToSecondFeature)
+fun DetailScreen(viewModel: DetailScreenViewModel) {
+    DetailScreenContent(viewModel::getDetailText, viewModel::navigateToSecondFeature)
 }
 
 @Composable
-fun SecondScreenContent(getDetailText: () -> String, navigateToSecondFeature: () -> Unit) {
+fun DetailScreenContent(getDetailText: () -> String, navigateToDetailFeature: () -> Unit) {
     Column() {
         Text(text = getDetailText())
-        Button(onClick = navigateToSecondFeature) {
+        Button(onClick = navigateToDetailFeature) {
             Text(text = "zum zweiten Feature Module")
         }
     }
@@ -24,6 +24,6 @@ fun SecondScreenContent(getDetailText: () -> String, navigateToSecondFeature: ()
 
 @Preview
 @Composable
-fun SecondScreenContentPreview() {
-    SecondScreenContent({ "test" }) { }
+fun DetailScreenContentPreview() {
+    DetailScreenContent({ "test" }) { }
 }

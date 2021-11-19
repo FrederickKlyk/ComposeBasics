@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.fred.composedemo1.navigation.Navigator
 import de.fred.composedemo1.secondfeature.ui.SecondFeatureUIState.initial
+import de.fred.designsystem.buttons.base.BaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 class SecondFeatureViewModel(
    private val stateHandle: SavedStateHandle,
    private val navigator: Navigator,
-) : ViewModel() {
+) : BaseViewModel<SecondFeatureViewModel>() {
 
     private val _uiStateFlow = MutableStateFlow(1)
     val uiStateFlow = _uiStateFlow.asStateFlow()
@@ -54,7 +55,7 @@ class SecondFeatureViewModel(
 
     private suspend fun fakeRepo() = flow {
         listOf(10, 20, 30, 40, 50, 60, 70, 80, 90).forEach {
-            delay(100)
+            delay(500)
             emit(it)
         }
     }

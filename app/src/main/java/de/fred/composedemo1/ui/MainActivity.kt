@@ -55,7 +55,6 @@ class MainActivity : ComponentActivity() {
 fun HomeScreen(viewModel: MainViewModel) {
     viewModel.initialize()
     val items by viewModel.items.observeAsState()
-
     Column {
         Button(onClick = viewModel::navigateToDetailsView) {
             Text(text = "Go to detail")
@@ -68,7 +67,7 @@ fun HomeScreen(viewModel: MainViewModel) {
 fun ContentComponent(
     items: MutableList<MainViewModelItem>? = null,
 ) {
-    Log.d("viewmodel", "Size: ${items?.size}")
+    Log.d("itemsize", "Size: ${items?.size}")
     val context = LocalContext.current
 
     Scaffold(

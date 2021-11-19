@@ -21,7 +21,7 @@ fun NavigationComponent(
      */
     LaunchedEffect("navigation") {
         navigator.sharedFlow.onEach {
-            navController.navigate(it.label){
+            navController.navigate(it.label) {
                 popUpTo(it.label) // wichtig, damit der backstack aus unique nav entries besteht
             }
         }.launchIn(this)
@@ -36,4 +36,5 @@ fun NavigationComponent(
         addSecondFeatureGraph()
         addThirdFeatureGraph()
     }
+
 }
