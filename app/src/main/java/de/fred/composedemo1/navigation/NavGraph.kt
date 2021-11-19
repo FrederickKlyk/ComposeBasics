@@ -5,7 +5,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import de.fred.composedemo1.ui.DetailScreen
 import de.fred.composedemo1.ui.DetailScreenViewModel
-import de.fred.composedemo1.ui.HomeScreen
+import de.fred.composedemo1.ui.HomeScreenContent
 import de.fred.composedemo1.ui.MainViewModel
 import org.koin.androidx.compose.get
 
@@ -14,7 +14,7 @@ fun NavGraphBuilder.addMainGraph() {
 
         composable(Navigator.NavTarget.Home.label) {
             val viewModel = get<MainViewModel>()
-            HomeScreen(viewModel)
+            HomeScreenContent(viewModel)
         }
         composable(Navigator.NavTarget.Detail.label) {
             val viewModel = get<DetailScreenViewModel>()

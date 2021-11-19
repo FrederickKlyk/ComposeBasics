@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -52,11 +53,18 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HomeScreen(viewModel: MainViewModel) {
-    viewModel.initialize()
+fun HomeScreenContent(viewModel: MainViewModel) {
     val items by viewModel.items.observeAsState()
+    HomeScreenContent(items, viewModel::initialize, viewModel::navigateToDetailsView)
+}
+
+@Composable
+fun HomeScreenContent(items: MutableList<MainViewModelItem>?, initialize: () -> Unit, navigateToDetailsView: () -> Unit) {
+    LaunchedEffect(items) {
+        initialize.invoke()
+    }
     Column {
-        Button(onClick = viewModel::navigateToDetailsView) {
+        Button(onClick = navigateToDetailsView) {
             Text(text = "Go to detail")
         }
         ContentComponent(items)
