@@ -49,7 +49,7 @@ fun SecondFeatureContent(
         Button(onClick = incrementUiStateInteger) {
             Text("Erhöhe die Zahl")
         }
-        Button(onClick = downloadFakeData) {
+        Button(onClick = downloadFakeData, enabled = uiState !is SecondFeatureUIState.loading) {
             Text("Lade etwas runter")
         }
         Button(onClick = navigateToThirdFeatureModule) {
