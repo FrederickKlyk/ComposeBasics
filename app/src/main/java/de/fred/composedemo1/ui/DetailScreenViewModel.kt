@@ -1,9 +1,12 @@
 package de.fred.composedemo1.ui
 
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.fred.composedemo1.navigation.Navigator
 import de.fred.designsystem.buttons.base.BaseViewModel
+import javax.inject.Inject
 
-class DetailScreenViewModel(private val navigator: Navigator) : BaseViewModel<DetailScreenViewModel>() {
+@HiltViewModel
+class DetailScreenViewModel @Inject constructor(private val navigator: Navigator) : BaseViewModel<DetailScreenViewModel>() {
 
     fun getDetailText(): String {
         return "Details12345"

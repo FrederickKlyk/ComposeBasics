@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.fred.composedemo1.R
 import de.fred.composedemo1.navigation.NavigationComponent
 import de.fred.composedemo1.navigation.Navigator
@@ -36,7 +37,11 @@ import de.fred.designsystem.buttons.Buttons.DefaultButton
 import de.fred.designsystem.buttons.Buttons.DefaultFAB
 import org.koin.androidx.compose.get
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    // @Inject lateinit var navigator: Navigator
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -55,14 +60,14 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun HomeScreenContent(viewModel: MainViewModel) {
     val items by viewModel.items.observeAsState()
-    HomeScreenContent(items, viewModel::initialize, viewModel::navigateToDetailsView)
+    LaunchedEffect(items) {
+        viewModel.initialize()
+    }
+    HomeScreenContent(items, viewModel::navigateToDetailsView)
 }
 
 @Composable
-fun HomeScreenContent(items: MutableList<MainViewModelItem>?, initialize: () -> Unit, navigateToDetailsView: () -> Unit) {
-    LaunchedEffect(items) {
-        initialize.invoke()
-    }
+fun HomeScreenContent(items: MutableList<MainViewModelItem>?, navigateToDetailsView: () -> Unit) {
     Column {
         Button(onClick = navigateToDetailsView) {
             Text(text = "Go to detail")

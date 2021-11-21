@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -32,6 +34,9 @@ android {
 }
 
 dependencies {
+    // Dagger Hilt
+    implementation 'com.google.dagger:hilt-android:2.40.1'
+    kapt 'com.google.dagger:hilt-compiler:2.40.1'
     // Koin main features for Android (Scope,ViewModel ...)
     implementation "io.insert-koin:koin-android:$koin_version"
     // Koin for Jetpack Compose
