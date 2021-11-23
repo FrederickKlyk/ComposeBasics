@@ -4,9 +4,8 @@ sealed class NavTarget(val label: String) {
     object RootModule : NavTarget(ModuleRoutes.RootModule.label)
 
     sealed class SecondFeatureModule {
-        object SecondFeature : NavTarget("${ModuleRoutes.SecondFeature.label}/{secondId}")
-        data class SecondModuleWithParams(val secondId: String) : NavTarget("secondmodule/$secondId")
-        data class SecondFeatureWithParams(val secondId: String) : NavTarget("${ModuleRoutes.SecondFeature.label}/$secondId")
+        data class SecondModuleWithParams(val id: String) : NavTarget("${ModuleRoutes.SecondModule}/$id")
+        data class SecondFeatureWithParams(val id: String) : NavTarget("${ModuleRoutes.SecondFeature.label}/$id")
     }
 
     object ThirdModule : NavTarget(ModuleRoutes.ThirdModule.label)
@@ -18,7 +17,7 @@ sealed class NavTarget(val label: String) {
 // Screen Targets
 enum class ModuleRoutes(val label: String) {
     RootModule("rootmodule"),
-    SecondModule("secondmodule/{secondId}"),
+    SecondModule("secondmodule"),
     ThirdModule("thirdmodule"),
     Home("home"),
     Detail("detail"),
