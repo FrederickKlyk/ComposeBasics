@@ -3,12 +3,15 @@ package de.fred.composedemo1.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import de.fred.composedemo1.navigation.NavTarget
 import de.fred.composedemo1.navigation.Navigator
 import de.fred.designsystem.buttons.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val navigator: Navigator) : BaseViewModel<MainViewModel>() {
+class MainViewModel @Inject constructor(
+    private val navigator: Navigator,
+) : BaseViewModel<MainViewModel>() {
     private val _items = MutableLiveData<MutableList<MainViewModelItem>>(mutableListOf())
     val items: LiveData<MutableList<MainViewModelItem>> = this._items
 
@@ -28,6 +31,6 @@ class MainViewModel @Inject constructor(private val navigator: Navigator) : Base
     }
 
     fun navigateToDetailsView() {
-        navigator.navigateTo(Navigator.NavTarget.Detail)
+        navigator.navigateTo(NavTarget.Detail)
     }
 }

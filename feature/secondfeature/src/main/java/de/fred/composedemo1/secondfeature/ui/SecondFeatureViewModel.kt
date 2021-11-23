@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import de.fred.composedemo1.navigation.NavTarget
 import de.fred.composedemo1.navigation.Navigator
 import de.fred.composedemo1.secondfeature.ui.SecondFeatureUIState.initial
 import de.fred.designsystem.buttons.base.BaseViewModel
@@ -30,7 +31,7 @@ class SecondFeatureViewModel(
     }
 
     fun navigateToThirdFeatureModule() {
-        navigator.navigateTo(Navigator.NavTarget.ThirdModule)
+        navigator.navigateTo(NavTarget.ThirdModule)
     }
 
     fun incrementUiStateInteger() {

@@ -11,14 +11,14 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.viewModel
 
 fun NavGraphBuilder.addMainGraph() {
-    navigation(Navigator.NavTarget.Home.label, Navigator.NavTarget.RootModule.label) {
+    navigation(NavTarget.Home.label, NavTarget.RootModule.label) {
 
-        composable(Navigator.NavTarget.Home.label) {
+        composable(NavTarget.Home.label) {
             val viewModel: MainViewModel = getViewModel()
             //val viewModel: MainViewModel = hiltViewModel()
             HomeScreenContent(viewModel)
         }
-        composable(Navigator.NavTarget.Detail.label) {
+        composable(NavTarget.Detail.label) {
             val viewModel: DetailScreenViewModel by viewModel()
             //val viewModel: DetailScreenViewModel = hiltViewModel()
             DetailScreen(viewModel)

@@ -15,15 +15,4 @@ class Navigator @Inject constructor() {
     fun navigateTo(navTarget: NavTarget) {
         _sharedFlow.tryEmit(navTarget)
     }
-
-    // Screen Targets
-    enum class NavTarget(val label: String) {
-        RootModule("rootmodule"),
-        SecondModule("secondmodule"),
-        ThirdModule("thirdmodule"),
-        Home("home"),
-        Detail("detail"),
-        SecondFeature("secondfeature"),
-        ThirdFeature("thirdfeature")
-    }
 }

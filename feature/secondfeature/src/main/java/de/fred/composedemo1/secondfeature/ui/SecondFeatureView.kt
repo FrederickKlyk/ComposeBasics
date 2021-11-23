@@ -9,11 +9,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun SecondFeatureView(viewModel: SecondFeatureViewModel) {
+fun SecondFeatureView(viewModel: SecondFeatureViewModel, secondFeatureModuleID: String) {
     val uiStateFlow by viewModel.uiStateFlow.collectAsState()
     val uiState = viewModel.uiState
 
     SecondFeatureContent(
+        secondFeatureModuleID = secondFeatureModuleID,
         uiStateFlow = uiStateFlow,
         uiState = uiState,
         incrementUiStateInteger = viewModel::incrementUiStateInteger,
@@ -24,6 +25,7 @@ fun SecondFeatureView(viewModel: SecondFeatureViewModel) {
 
 @Composable
 fun SecondFeatureContent(
+    secondFeatureModuleID: String,
     uiStateFlow: Int,
     uiState: SecondFeatureUIState,
     incrementUiStateInteger: () -> Unit,
@@ -45,7 +47,7 @@ fun SecondFeatureContent(
                 Text("Progress: ${uiState.progress}")
             }
         }
-        Text("Hallo, dies ist das secondFeature Module, die Intnumber von stateFlow: $uiStateFlow")
+        Text("Hallo, dies ist das secondFeature Module mit dem Übergabeparamter $secondFeatureModuleID, die Intnumber von stateFlow: $uiStateFlow")
         Button(onClick = incrementUiStateInteger) {
             Text("Erhöhe die Zahl")
         }
@@ -61,5 +63,5 @@ fun SecondFeatureContent(
 @Preview
 @Composable
 private fun SecondFeatureContentPreview() {
-    SecondFeatureContent(1, SecondFeatureUIState.initial, {}, {}, {})
+    SecondFeatureContent("test", 1, SecondFeatureUIState.initial, {}, {}, {})
 }

@@ -15,14 +15,14 @@ fun NavigationComponent(
     navigator: Navigator,
 ) {
     /**
-     * With LaunchedEffect we create a CoroutineScope that is started as soon as our composable component is created
+     * With LaunchedEffect we create a CoroutineScope that is started as soon as our composable component is createdtestSTATE
      * and canceled as soon as the composition is removed.
      * As a result, whenever Navigator.navigateTo() is called, this snippet listens to it and performs the actual transition.
      */
     LaunchedEffect("navigation") {
         navigator.sharedFlow.onEach {
             navController.navigate(it.label) {
-                popUpTo(it.label) // wichtig, damit der backstack aus unique nav entries besteht
+                popUpTo(it.label) // wichtig, damit der backstack aus unique nav entries besteht (auf Parameter achten)
             }
         }.launchIn(this)
     }
@@ -30,11 +30,10 @@ fun NavigationComponent(
     // Navigation Directions
     NavHost(
         navController = navController,
-        startDestination = Navigator.NavTarget.RootModule.label
+        startDestination = NavTarget.RootModule.label
     ) {
         addMainGraph()
         addSecondFeatureGraph()
         addThirdFeatureGraph()
     }
-
 }
