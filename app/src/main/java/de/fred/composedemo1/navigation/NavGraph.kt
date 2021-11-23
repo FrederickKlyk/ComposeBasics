@@ -10,7 +10,7 @@ import de.fred.composedemo1.ui.MainViewModel
 import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.viewModel
 
-fun NavGraphBuilder.addMainGraph() {
+fun NavGraphBuilder.addMainGraph(popBackStack: () -> Unit) {
     navigation(NavTarget.Home.label, NavTarget.RootModule.label) {
 
         composable(NavTarget.Home.label) {

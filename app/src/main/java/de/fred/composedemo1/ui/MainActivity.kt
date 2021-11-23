@@ -94,18 +94,21 @@ fun ContentComponent(
                         .matchParentSize()
                         .background(Color.LightGray)
                 )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    LeftComponent(modifier = Modifier.weight(2f))
-                    MiddleComponent(
-                        modifier = Modifier
-                            .paddingFromBaseline(top = 8.dp)
-                            .weight(1f), context = context
-                    )
-                    RightListComponent(items = items, context = context)
+                Column() {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        LeftComponent(modifier = Modifier.weight(2f))
+                        MiddleComponent(
+                            modifier = Modifier
+                                .paddingFromBaseline(top = 8.dp)
+                                .weight(1f), context = context
+                        )
+                        RightListComponent(items = items, context = context)
+                    }
+                    Clipcard()
                 }
             }
         },
@@ -185,7 +188,7 @@ fun MiddleComponentPreview() {
 fun RightListComponent(items: MutableList<MainViewModelItem>?, context: Context) {
     LazyColumn {
         items(items = items ?: emptyList()) { item ->
-            Text("Item is: ${item.name}", Modifier.clickable {
+            Text("Item is: ${item.name} in ${item.city}", Modifier.clickable {
                 item.onItemClick()
                 showToast(item.name, context)
             })
@@ -202,13 +205,13 @@ fun Clipcard() {
         )
         Column {
             Text(
-                text = "hi",
+                text = "Titel",
                 fontSize = 18.sp,
                 fontStyle = FontStyle.Normal,
                 fontWeight = Bold,
                 modifier = Modifier.padding(start = 16.dp)
             )
-            Text(text = "was geht")
+            Text(text = "Beschreibungstext")
         }
     }
 }

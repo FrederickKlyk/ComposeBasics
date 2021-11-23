@@ -32,8 +32,8 @@ fun NavigationComponent(
         navController = navController,
         startDestination = NavTarget.RootModule.label
     ) {
-        addMainGraph()
-        addSecondFeatureGraph()
-        addThirdFeatureGraph()
+        addMainGraph() { navController.popBackStack() }
+        addSecondFeatureGraph() { navController.popBackStack() }
+        addThirdFeatureGraph() { navController.popBackStack() }
     }
 }
