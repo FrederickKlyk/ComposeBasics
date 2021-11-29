@@ -13,14 +13,19 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
@@ -32,9 +37,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import de.fred.composedemo1.R
 import de.fred.composedemo1.navigation.NavigationComponent
 import de.fred.composedemo1.navigation.Navigator
+import de.fred.composedemo1.ui.theme.Blue100
 import de.fred.composedemo1.ui.theme.ComposeDemo1Theme
 import de.fred.designsystem.buttons.Buttons.DefaultButton
 import de.fred.designsystem.buttons.Buttons.DefaultFAB
+import de.fred.designsystem.buttons.DefaultTopBar
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
 
 @AndroidEntryPoint
@@ -82,17 +90,37 @@ fun ContentComponent(
 ) {
     Log.d("itemsize", "Size: ${items?.size}")
     val context = LocalContext.current
+    val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+    val scope = rememberCoroutineScope()
+    val openDrawer = {
+        scope.launch {
+            scaffoldState.drawerState.open()
+        }
+    }
 
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
-            TopRowHeader()
+            DefaultTopBar(
+                title = "test",
+                buttonIcon = Icons.Filled.Menu,
+                onButtonClicked =  { openDrawer() }
+            )
+        },
+        drawerBackgroundColor = colorResource(id = R.color.design_default_color_primary),
+        drawerContent = {
+            Text("Drawer Title")
+            Divider()
+            Text("Element 1")
+            Text("Element 2")
+            Text("Element 3")
         },
         content = {
             Box {
                 Spacer(
                     modifier = Modifier
                         .matchParentSize()
-                        .background(Color.LightGray)
+                        .background(Blue100)
                 )
                 Column() {
                     Row(
@@ -126,21 +154,10 @@ fun ContentComponentPreview() {
     ContentComponent(mutableListOf(MainViewModelItem("test", "test2")))
 }
 
-@Composable
-fun TopRowHeader() {
-    Row(
-        modifier = Modifier
-            .background(Color.Gray)
-            .fillMaxWidth()
-    ) {
-        Text(text = "test")
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun TopRowHeaderPreview() {
-    TopRowHeader()
+    // TopRowHeader()
 }
 
 @Composable
