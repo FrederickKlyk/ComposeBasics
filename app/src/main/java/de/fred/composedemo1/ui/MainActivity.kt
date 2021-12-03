@@ -23,7 +23,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -35,12 +34,16 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import de.fred.composedemo1.R
+import de.fred.composedemo1.navigation.DrawerRoute
+import de.fred.composedemo1.navigation.NavTarget
+import de.fred.composedemo1.navigation.NavTarget.*
 import de.fred.composedemo1.navigation.NavigationComponent
 import de.fred.composedemo1.navigation.Navigator
 import de.fred.composedemo1.ui.theme.Blue100
 import de.fred.composedemo1.ui.theme.ComposeDemo1Theme
 import de.fred.designsystem.buttons.Buttons.DefaultButton
 import de.fred.designsystem.buttons.Buttons.DefaultFAB
+import de.fred.designsystem.buttons.DefaultDrawer
 import de.fred.designsystem.buttons.DefaultTopBar
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
@@ -71,49 +74,57 @@ fun HomeScreenContent(viewModel: MainViewModel) {
     LaunchedEffect(items) {
         viewModel.initialize()
     }
-    HomeScreenContent(items, viewModel::navigateToDetailsView)
+    HomeScreenContent(items, viewModel::navigateToDetailsView, viewModel::navigateToSpecificView)
 }
 
 @Composable
-fun HomeScreenContent(items: MutableList<MainViewModelItem>?, navigateToDetailsView: () -> Unit) {
+fun HomeScreenContent(
+    items: MutableList<MainViewModelItem>?,
+    navigateToDetailsView: () -> Unit,
+    navigateToSpecificView: (NavTarget) -> Unit,
+) {
     Column {
         Button(onClick = navigateToDetailsView) {
             Text(text = "Go to detail")
         }
-        ContentComponent(items)
+        ContentComponent(items, navigateToSpecificView)
     }
 }
 
 @Composable
 fun ContentComponent(
     items: MutableList<MainViewModelItem>? = null,
+    navigateToSpecificView: (NavTarget) -> Unit,
 ) {
     Log.d("itemsize", "Size: ${items?.size}")
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val scope = rememberCoroutineScope()
-    val openDrawer = {
-        scope.launch {
-            scaffoldState.drawerState.open()
-        }
-    }
 
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
             DefaultTopBar(
+                scope = scope,
+                drawerState = scaffoldState.drawerState,
                 title = "test",
                 buttonIcon = Icons.Filled.Menu,
-                onButtonClicked =  { openDrawer() }
             )
         },
         drawerBackgroundColor = colorResource(id = R.color.design_default_color_primary),
         drawerContent = {
-            Text("Drawer Title")
-            Divider()
-            Text("Element 1")
-            Text("Element 2")
-            Text("Element 3")
+            DefaultDrawer(
+                scope = scope,
+                drawerState = scaffoldState.drawerState,
+                screens = listOf(
+                    DrawerRoute("Detail", Detail),
+                    DrawerRoute("Second Module", SecondFeatureModule.SecondModuleWithParams("Drawer")),
+                    DrawerRoute("Third Module", ThirdModule),
+                ),
+                onDestinationClicked = { route ->
+                    navigateToSpecificView(route)
+                }
+            )
         },
         content = {
             Box {
@@ -151,7 +162,7 @@ fun ContentComponent(
 @Preview
 @Composable
 fun ContentComponentPreview() {
-    ContentComponent(mutableListOf(MainViewModelItem("test", "test2")))
+    ContentComponent(mutableListOf(MainViewModelItem("test", "test2"))) {}
 }
 
 @Preview(showBackground = true)

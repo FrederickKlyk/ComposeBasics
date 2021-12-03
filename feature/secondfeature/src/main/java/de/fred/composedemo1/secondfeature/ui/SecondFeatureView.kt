@@ -3,16 +3,16 @@ package de.fred.composedemo1.secondfeature.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
-import de.fred.composedemo1.navigation.DrawerRoutes
+import de.fred.composedemo1.navigation.DrawerRoute
+import de.fred.composedemo1.navigation.NavTarget
 import de.fred.designsystem.buttons.DefaultTopBar
-import de.fred.designsystem.buttons.Drawer
+import de.fred.designsystem.buttons.DefaultDrawer
 import kotlinx.coroutines.launch
 
 @Composable
@@ -41,31 +41,27 @@ fun SecondFeatureContent(
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val openDrawer = {
-        scope.launch {
-            drawerState.open()
-        }
-    }
 
     ModalDrawer(
         drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
-            Drawer(
-                screens = listOf(DrawerRoutes("test", "test")),
+            DefaultDrawer(
+                scope = scope,
+                drawerState = drawerState,
+                screens = listOf(DrawerRoute("Main", NavTarget.RootModule)),
                 onDestinationClicked = { route ->
-                    scope.launch {
-                        drawerState.close()
-                    }
+
                 }
             )
         },
     ) {
         Column() {
             DefaultTopBar(
+                scope = scope,
+                drawerState = drawerState,
                 title = "Second Feature",
                 buttonIcon = Icons.Filled.Menu,
-                onButtonClicked = { openDrawer() }
             )
             when (uiState) {
                 is SecondFeatureUIState.error -> {

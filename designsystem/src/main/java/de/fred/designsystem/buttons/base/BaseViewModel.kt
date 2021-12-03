@@ -2,6 +2,7 @@ package de.fred.designsystem.buttons.base
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import de.fred.composedemo1.navigation.NavTarget
 
 abstract class BaseViewModel<T : ViewModel> : ViewModel() {
 
@@ -9,6 +10,10 @@ abstract class BaseViewModel<T : ViewModel> : ViewModel() {
 
     init {
         Log.d("ViewModel", "$className wurde initialisiert...")
+    }
+
+    open fun navigateToSpecificView(navTarget: NavTarget){
+        Log.d("navigation", "navigate to ${navTarget.label}")
     }
 
     override fun onCleared() {

@@ -1,7 +1,9 @@
 package de.fred.composedemo1.navigation
 
 sealed class NavTarget(val label: String) {
+    object Home : NavTarget(ModuleRoutes.Home.label)
     object RootModule : NavTarget(ModuleRoutes.RootModule.label)
+    object Detail : NavTarget(ModuleRoutes.Detail.label)
 
     sealed class SecondFeatureModule {
         data class SecondModuleWithParams(val id: String) : NavTarget("${ModuleRoutes.SecondModule}/$id")
@@ -9,8 +11,6 @@ sealed class NavTarget(val label: String) {
     }
 
     object ThirdModule : NavTarget(ModuleRoutes.ThirdModule.label)
-    object Home : NavTarget(ModuleRoutes.Home.label)
-    object Detail : NavTarget(ModuleRoutes.Detail.label)
     object ThirdFeature : NavTarget(ModuleRoutes.ThirdFeature.label)
 }
 

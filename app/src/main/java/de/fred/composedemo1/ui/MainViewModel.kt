@@ -15,7 +15,6 @@ class MainViewModel @Inject constructor(
     private val _items = MutableLiveData<MutableList<MainViewModelItem>>(mutableListOf())
     val items: LiveData<MutableList<MainViewModelItem>> = this._items
 
-
     fun initialize() {
         this._items.value?.apply {
             clear()
@@ -32,5 +31,10 @@ class MainViewModel @Inject constructor(
 
     fun navigateToDetailsView() {
         navigator.navigateTo(NavTarget.Detail)
+    }
+
+    override fun navigateToSpecificView(navTarget: NavTarget) {
+        super.navigateToSpecificView(navTarget)
+        navigator.navigateTo(navTarget)
     }
 }
