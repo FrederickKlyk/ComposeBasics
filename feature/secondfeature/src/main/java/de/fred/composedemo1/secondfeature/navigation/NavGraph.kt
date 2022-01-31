@@ -7,8 +7,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import de.fred.composedemo1.navigation.ModuleRoutes
-import de.fred.composedemo1.secondfeature.ui.SecondFeatureView
-import de.fred.composedemo1.secondfeature.ui.SecondFeatureViewModel
+import de.fred.composedemo1.secondfeature.ui.FeatureSecondContent
+import de.fred.composedemo1.secondfeature.ui.FeatureSecondViewModel
 import org.koin.androidx.compose.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -20,9 +20,9 @@ fun NavGraphBuilder.addSecondFeatureGraph(popBackStack: () -> Unit) {
         ) { backStackEntry ->
             val secondFeatureModuleID = backStackEntry.arguments?.getString("secondId")
             requireNotNull(secondFeatureModuleID) { "secondFeatureModuleID is null. Please make sure, seconId is set!" }
-            val viewModel: SecondFeatureViewModel by viewModel { parametersOf(SavedStateHandle()) }
+            val viewModel: FeatureSecondViewModel by viewModel { parametersOf(SavedStateHandle()) }
 
-            SecondFeatureView(viewModel, secondFeatureModuleID)
+            FeatureSecondContent(viewModel, secondFeatureModuleID)
         }
     }
 }

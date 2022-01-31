@@ -1,10 +1,10 @@
 package de.fred.composedemo1.secondfeature.di
 
 import androidx.lifecycle.SavedStateHandle
-import de.fred.composedemo1.secondfeature.ui.SecondFeatureViewModel
+import de.fred.composedemo1.secondfeature.ui.FeatureSecondViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val uiModule = module {
-    viewModel { (savedStateHandle: SavedStateHandle) -> SecondFeatureViewModel(savedStateHandle, get()) }
+    viewModel { (savedStateHandle: SavedStateHandle) -> FeatureSecondViewModel(savedStateHandle, get()) }
 }
