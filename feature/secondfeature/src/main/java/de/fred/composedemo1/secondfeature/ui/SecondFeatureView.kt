@@ -17,22 +17,22 @@ import de.fred.designsystem.buttons.DefaultTopBar
 import kotlinx.coroutines.CancellableContinuation
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
+
 
 @Composable
-fun SecondFeatureView(viewModel: SecondFeatureViewModel, secondFeatureModuleID: String) {
+fun FeatureSecondContent(viewModel: FeatureSecondViewModel, secondFeatureModuleID: String) {
     val uiStateFlow by viewModel.uiStateFlow.collectAsState()
     val uiState = viewModel.uiState
 
     val continuation by viewModel.continuation.observeAsState()
     val cancel by viewModel.cancel.observeAsState()
 
-    SecondFeatureContent(
+    FeatureSecondContent(
         secondFeatureModuleID = secondFeatureModuleID,
         uiStateFlow = uiStateFlow,
         uiState = uiState,
-        incrementUiStateInteger = viewModel::incrementUiStateInteger,
-        downloadFakeData = viewModel::downloadFakeData,
+        incrementUiStateInteger = viewModel::incrementUiStateFlowInteger,
+        downloadFakeData = viewModel::downloadDataFromRepository,
         navigateToThirdFeatureModule = viewModel::navigateToThirdFeatureModule,
         startCoroutineConti = viewModel::coroutineContinuation,
         continuation = continuation,
@@ -40,11 +40,12 @@ fun SecondFeatureView(viewModel: SecondFeatureViewModel, secondFeatureModuleID: 
     )
 }
 
+
 @Composable
-fun SecondFeatureContent(
+fun FeatureSecondContent(
     secondFeatureModuleID: String,
     uiStateFlow: Int,
-    uiState: SecondFeatureUIState,
+    uiState: FeatureSecondUIState,
     incrementUiStateInteger: () -> Unit,
     downloadFakeData: () -> Unit,
     navigateToThirdFeatureModule: () -> Unit,
@@ -77,16 +78,16 @@ fun SecondFeatureContent(
                 buttonIcon = Icons.Filled.Menu,
             )
             when (uiState) {
-                is SecondFeatureUIState.error -> {
+                is FeatureSecondUIState.Error -> {
                     Text("Fehler wegen: ${uiState.message}")
                 }
-                SecondFeatureUIState.initial -> {
+                FeatureSecondUIState.Initial -> {
                     Text("Initialier Zustand")
                 }
-                SecondFeatureUIState.loaded -> {
+                FeatureSecondUIState.Loaded -> {
                     Text("Fertig geladen")
                 }
-                is SecondFeatureUIState.loading -> {
+                is FeatureSecondUIState.Loading -> {
                     Text("Progress: ${uiState.progress}")
                 }
             }
@@ -94,7 +95,7 @@ fun SecondFeatureContent(
             Button(onClick = incrementUiStateInteger) {
                 Text("Erhöhe die Zahl")
             }
-            Button(onClick = downloadFakeData, enabled = uiState !is SecondFeatureUIState.loading) {
+            Button(onClick = downloadFakeData, enabled = uiState !is FeatureSecondUIState.Loading) {
                 Text("Lade etwas runter")
             }
             Button(onClick = navigateToThirdFeatureModule) {
@@ -124,6 +125,6 @@ fun SecondFeatureContent(
 
 @Preview
 @Composable
-private fun SecondFeatureContentPreview() {
-    SecondFeatureContent("test", 1, SecondFeatureUIState.initial, {}, {}, {}, {}, null, null)
+private fun FeatureSecondContentPreview() {
+    FeatureSecondContent("", 1, FeatureSecondUIState.Initial, {}, {}, {}, {}, null, null)
 }

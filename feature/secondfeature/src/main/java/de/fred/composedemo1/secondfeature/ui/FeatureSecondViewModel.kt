@@ -9,22 +9,26 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import de.fred.composedemo1.navigation.NavTarget
 import de.fred.composedemo1.navigation.Navigator
-import de.fred.composedemo1.secondfeature.ui.SecondFeatureUIState.initial
+import de.fred.composedemo1.secondfeature.ui.FeatureSecondUIState.Initial
 import de.fred.designsystem.buttons.base.BaseViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellableContinuation
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.suspendCoroutine
 
-class SecondFeatureViewModel(
+
+class FeatureSecondViewModel(
     private val stateHandle: SavedStateHandle,
     private val navigator: Navigator,
-) : BaseViewModel<SecondFeatureViewModel>() {
+) : BaseViewModel<FeatureSecondViewModel>() {
 
     private val _uiStateFlow = MutableStateFlow(1)
     val uiStateFlow = _uiStateFlow.asStateFlow()
 
-    var uiState by mutableStateOf<SecondFeatureUIState>(initial)
+    var uiState by mutableStateOf<FeatureSecondUIState>(Initial)
 
     var continuation = MutableLiveData<Continuation<Boolean>>()
     var cancel = MutableLiveData<CancellableContinuation<Boolean>>()
@@ -38,7 +42,7 @@ class SecondFeatureViewModel(
         navigator.navigateTo(NavTarget.ThirdModule)
     }
 
-    fun incrementUiStateInteger() {
+    fun incrementUiStateFlowInteger() {
         _uiStateFlow.value += 1
         saveState()
     }
@@ -68,7 +72,7 @@ class SecondFeatureViewModel(
                 Log.d("scope", "start suspendCancellableCoroutine, t1: $t1, sc1: $sc1") // t1: 4, sc1: true
                 t1 = 5
                 Log.d("scope", "start suspendCancellableCoroutine, t1: $t1") // t1: 5
-                this@SecondFeatureViewModel.cancel.value = cancel
+                this@FeatureSecondViewModel.cancel.value = cancel
             }
 
             Log.d("scope",
@@ -78,17 +82,18 @@ class SecondFeatureViewModel(
         Log.d("scope", "after launch, t1: $t1") //4
     }
 
-    fun downloadFakeData() {
+
+    fun downloadDataFromRepository() {
         viewModelScope.launch() {
             fakeRepo()
                 .onStart {
-                    uiState = SecondFeatureUIState.loading(0)
+                    uiState = FeatureSecondUIState.Loading(0)
                 }.onCompletion {
-                    uiState = SecondFeatureUIState.loaded
+                    uiState = FeatureSecondUIState.Loaded
                 }.catch {
-                    uiState = SecondFeatureUIState.error("Fehler beim Laden")
+                    uiState = FeatureSecondUIState.Error("Fehler beim Laden")
                 }.collect { progress ->
-                    uiState = SecondFeatureUIState.loading(progress)
+                    uiState = FeatureSecondUIState.Loading(progress)
                 }
         }
     }
