@@ -7,18 +7,25 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import de.fred.composedemo1.navigation.DrawerRoute
 import de.fred.composedemo1.navigation.NavTarget
-import de.fred.designsystem.buttons.DefaultTopBar
 import de.fred.designsystem.buttons.DefaultDrawer
-import kotlinx.coroutines.launch
+import de.fred.designsystem.buttons.DefaultTopBar
+import kotlinx.coroutines.CancellableContinuation
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 @Composable
 fun SecondFeatureView(viewModel: SecondFeatureViewModel, secondFeatureModuleID: String) {
     val uiStateFlow by viewModel.uiStateFlow.collectAsState()
     val uiState = viewModel.uiState
+
+    val continuation by viewModel.continuation.observeAsState()
+    val cancel by viewModel.cancel.observeAsState()
 
     SecondFeatureContent(
         secondFeatureModuleID = secondFeatureModuleID,
@@ -26,7 +33,10 @@ fun SecondFeatureView(viewModel: SecondFeatureViewModel, secondFeatureModuleID: 
         uiState = uiState,
         incrementUiStateInteger = viewModel::incrementUiStateInteger,
         downloadFakeData = viewModel::downloadFakeData,
-        navigateToThirdFeatureModule = viewModel::navigateToThirdFeatureModule
+        navigateToThirdFeatureModule = viewModel::navigateToThirdFeatureModule,
+        startCoroutineConti = viewModel::coroutineContinuation,
+        continuation = continuation,
+        cancel = cancel
     )
 }
 
@@ -38,6 +48,9 @@ fun SecondFeatureContent(
     incrementUiStateInteger: () -> Unit,
     downloadFakeData: () -> Unit,
     navigateToThirdFeatureModule: () -> Unit,
+    startCoroutineConti: () -> Unit,
+    continuation: Continuation<Boolean>?,
+    cancel: CancellableContinuation<Boolean>?,
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -87,6 +100,24 @@ fun SecondFeatureContent(
             Button(onClick = navigateToThirdFeatureModule) {
                 Text("weiter zum dritten FeatureModule")
             }
+            Button(onClick = startCoroutineConti) {
+                Text("start Coroutine Conti")
+            }
+            Button(onClick = { continuation?.resume(true) }) {
+                Text("Continuation resumen mit true, state: ${continuation?.context}")
+            }
+            Button(onClick = { continuation?.resume(false) }) {
+                Text("Continuation resumen mit false, state: ${continuation?.context}")
+            }
+            Button(onClick = { cancel?.resume(true) }) {
+                Text("cancel mit true, state: ${cancel?.context}")
+            }
+            Button(onClick = { cancel?.resume(false) }) {
+                Text("cancel mit false, state: ${cancel?.context}")
+            }
+            Button(onClick = { cancel?.cancel() }) {
+                Text("cancel mit cancel, state: ${cancel?.context}")
+            }
         }
     }
 }
@@ -94,5 +125,5 @@ fun SecondFeatureContent(
 @Preview
 @Composable
 private fun SecondFeatureContentPreview() {
-    SecondFeatureContent("test", 1, SecondFeatureUIState.initial, {}, {}, {})
+    SecondFeatureContent("test", 1, SecondFeatureUIState.initial, {}, {}, {}, {}, null, null)
 }
