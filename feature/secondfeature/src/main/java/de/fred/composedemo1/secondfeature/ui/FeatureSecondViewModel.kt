@@ -1,9 +1,8 @@
 package de.fred.composedemo1.secondfeature.ui
 
 import android.util.Log
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -25,10 +24,12 @@ class FeatureSecondViewModel(
     private val navigator: Navigator,
 ) : BaseViewModel<FeatureSecondViewModel>() {
 
+    private var _uiState = mutableStateOf<FeatureSecondUIState>(Initial)
+    val uiState: State<FeatureSecondUIState>
+        get() = _uiState
+
     private val _uiStateFlow = MutableStateFlow(1)
     val uiStateFlow = _uiStateFlow.asStateFlow()
-
-    var uiState by mutableStateOf<FeatureSecondUIState>(Initial)
 
     var continuation = MutableLiveData<Continuation<Boolean>>()
     var cancel = MutableLiveData<CancellableContinuation<Boolean>>()
@@ -87,13 +88,13 @@ class FeatureSecondViewModel(
         viewModelScope.launch() {
             fakeRepo()
                 .onStart {
-                    uiState = FeatureSecondUIState.Loading(0)
+                    _uiState.value = FeatureSecondUIState.Loading(0)
                 }.onCompletion {
-                    uiState = FeatureSecondUIState.Loaded
+                    _uiState.value = FeatureSecondUIState.Loaded
                 }.catch {
-                    uiState = FeatureSecondUIState.Error("Fehler beim Laden")
+                    _uiState.value = FeatureSecondUIState.Error("Fehler beim Laden")
                 }.collect { progress ->
-                    uiState = FeatureSecondUIState.Loading(progress)
+                    _uiState.value = FeatureSecondUIState.Loading(progress)
                 }
         }
     }

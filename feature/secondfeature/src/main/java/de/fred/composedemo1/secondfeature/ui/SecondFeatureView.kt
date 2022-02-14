@@ -22,7 +22,7 @@ import kotlin.coroutines.resume
 @Composable
 fun FeatureSecondContent(viewModel: FeatureSecondViewModel, secondFeatureModuleID: String) {
     val uiStateFlow by viewModel.uiStateFlow.collectAsState()
-    val uiState = viewModel.uiState
+    val uiState by viewModel.uiState
 
     val continuation by viewModel.continuation.observeAsState()
     val cancel by viewModel.cancel.observeAsState()
