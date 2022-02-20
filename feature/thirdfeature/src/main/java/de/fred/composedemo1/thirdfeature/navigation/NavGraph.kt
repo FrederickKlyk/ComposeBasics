@@ -10,7 +10,10 @@ import de.fred.composedemo1.thirdfeature.ui.ThirdFeatureViewModel
 import org.koin.androidx.compose.viewModel
 
 fun NavGraphBuilder.addThirdFeatureGraph(popBackStack: () -> Unit) {
-    navigation(NavTarget.ThirdFeature.label, NavTarget.ThirdModule.label) {
+    navigation(
+        startDestination = NavTarget.ThirdFeature.label,
+        route = NavTarget.ThirdModule.label
+    ) {
         composable(NavTarget.ThirdFeature.label) {
             val viewModel: ThirdFeatureViewModel by viewModel()
             ThirdFeatureView(viewModel, popBackStack)

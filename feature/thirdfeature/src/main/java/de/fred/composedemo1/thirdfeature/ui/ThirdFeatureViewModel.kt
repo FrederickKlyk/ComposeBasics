@@ -11,4 +11,8 @@ class ThirdFeatureViewModel(
     fun navigateToSecondFeatureModule() {
         navigator.navigateTo(NavTarget.SecondFeatureModule.SecondFeatureWithParams("IdVonThirdFeature"))
     }
+
+    fun navigateToShoppingCart() {
+        navigator.navigateTo(NavTarget.ShoppingCartModule)
+    }
 }

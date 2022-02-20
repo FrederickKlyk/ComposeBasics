@@ -13,15 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.koin.androidx.compose.get
 
 @Composable
 fun ThirdFeatureView(viewModel: ThirdFeatureViewModel, popBackStack: () -> Unit) {
-    ThirdFeatureContent(viewModel::navigateToSecondFeatureModule, popBackStack)
+    ThirdFeatureContent(viewModel::navigateToSecondFeatureModule, viewModel::navigateToShoppingCart, popBackStack)
 }
 
 @Composable
-fun ThirdFeatureContent(navigateToSecondFeatureModule: () -> Unit, popBackStack: () -> Unit) {
+fun ThirdFeatureContent(navigateToSecondFeatureModule: () -> Unit, navigateToShoppingCart: () -> Unit, popBackStack: () -> Unit) {
     Column() {
         Icon(
             tint = Color.Black,
@@ -38,11 +37,14 @@ fun ThirdFeatureContent(navigateToSecondFeatureModule: () -> Unit, popBackStack:
         Button(onClick = navigateToSecondFeatureModule) {
             Text("zurück zum zweiten Modul")
         }
+        Button(onClick = navigateToShoppingCart) {
+            Text("Navigiere zum ShoppingCart")
+        }
     }
 }
 
 @Preview
 @Composable
 fun ThirdFeatureContentPreview() {
-    ThirdFeatureContent({}, {})
+    ThirdFeatureContent({}, {}, {})
 }

@@ -13,7 +13,10 @@ import org.koin.androidx.compose.viewModel
 import org.koin.core.parameter.parametersOf
 
 fun NavGraphBuilder.addSecondFeatureGraph(popBackStack: () -> Unit) {
-    navigation(startDestination = "${ModuleRoutes.SecondFeature.label}/{secondId}", route = "${ModuleRoutes.SecondModule.label}/{secondId}") {
+    navigation(
+        startDestination = "${ModuleRoutes.SecondFeature.label}/{secondId}",
+        route = "${ModuleRoutes.SecondModule.label}/{secondId}"
+    ) {
         composable(
             route = "${ModuleRoutes.SecondFeature.label}/{secondId}",
             arguments = listOf(navArgument("secondId") { type = StringType })
