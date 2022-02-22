@@ -120,6 +120,7 @@ fun ContentComponent(
                     DrawerRoute("Detail", Detail),
                     DrawerRoute("Second Module", SecondFeatureModule.SecondModuleWithParams("Drawer")),
                     DrawerRoute("Third Module", ThirdModule),
+                    DrawerRoute("Shoppingcart", ShoppingCartModule),
                 ),
                 onDestinationClicked = { route ->
                     navigateToSpecificView(route)
