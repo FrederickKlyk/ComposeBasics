@@ -1,9 +1,11 @@
 package de.fred.composedemo1.shoppingcart.ui
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import de.fred.composedemo1.shoppingcart.R
 import de.fred.designsystem.buttons.base.BaseViewModel
 import java.math.BigDecimal
 
@@ -15,12 +17,13 @@ class ShoppingCartViewModel : BaseViewModel<ShoppingCartViewModel>() {
 
     val shoppingCartState = mutableStateOf<ShoppingCartStates>(ShoppingCartStates.Initial)
 
-    fun initialize() {
+    init {
+        Log.d("viewModel", "launch initialize")
         _shoppingCartItems.addAll(listOf(
-            toShoppingCartItemViewModel(1, 0, "article1", BigDecimal.valueOf(13.99), 1),
-            toShoppingCartItemViewModel(2, 0, "article2", BigDecimal.valueOf(8.99), 1),
-            toShoppingCartItemViewModel(3, 0, "article3", BigDecimal.valueOf(4.95), 2),
-            toShoppingCartItemViewModel(4, 0, "article4", BigDecimal.valueOf(18.89), 1),
+            toShoppingCartItemViewModel(1, R.drawable.article1, "article1", BigDecimal.valueOf(13.99), 1),
+            toShoppingCartItemViewModel(2, R.drawable.article2, "article2", BigDecimal.valueOf(8.99), 1),
+            toShoppingCartItemViewModel(3, R.drawable.article3, "article3", BigDecimal.valueOf(4.95), 2),
+            toShoppingCartItemViewModel(4, R.drawable.article4, "article4", BigDecimal.valueOf(18.89), 1),
         ))
     }
 

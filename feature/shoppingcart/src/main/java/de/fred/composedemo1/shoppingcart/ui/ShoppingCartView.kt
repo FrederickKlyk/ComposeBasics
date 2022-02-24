@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -18,8 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import de.fred.composedemo1.shoppingcart.R
 import java.math.BigDecimal
 
 @Composable
@@ -33,58 +39,100 @@ fun ShoppingCartContent(viewModel: ShoppingCartViewModel) {
             viewModel.removeArticleItem((shoppingCartState as ShoppingCartStates.RemoveArticleItemEvent).articleId)
         }
     }
-    LaunchedEffect(key1 = shoppingCartItemList) {
-        viewModel.initialize()
-    }
+
     val totalPrice = shoppingCartItemList.sumOf { it.articlePrice }
     ShoppingCartContent(itemList = shoppingCartItemList, totalPrice = totalPrice)
 }
 
 @Composable
 fun ShoppingCartContent(itemList: List<ShoppingCartItemViewModel>, totalPrice: BigDecimal) {
-    Column {
-        LazyColumn {
+    Column() {
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(start = 25.dp)) {
+            Column {
+                Text(text = "Dein", modifier = Modifier.padding(top = 25.dp), fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                Text(text = "Einkaufswagen", color = Color(176, 213, 83), fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .size(56.dp)
+                    .padding(end = 25.dp),
+                contentAlignment = Alignment.CenterEnd,
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.union),
+                    contentDescription = "",
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.group_150),
+                    contentDescription = "",
+                    modifier = Modifier.padding(end = 9.dp, bottom = 6.dp)
+                )
+            }
+        }
+
+        LazyColumn(modifier = Modifier.padding(top = 32.dp, start = 25.dp)) {
             items(items = itemList) { item ->
                 ItemBackground {
-                    Row(modifier = Modifier.size(width = maxWidth, height = maxHeight), verticalAlignment = Alignment.CenterVertically) {
+                    Box(modifier = Modifier
+                        .size(width = 83.dp, height = maxHeight),
+                        contentAlignment = Alignment.Center
+                    ) {
                         Image(
-                            painter = painterResource(id = android.R.drawable.ic_dialog_info),
+                            painter = painterResource(id = item.articleIcon),
                             contentDescription = "",
-                            modifier = Modifier.padding(start = 8.dp)
                         )
-                        Column(modifier = Modifier.padding(start = 32.dp)) {
-                            Text(item.articleName)
+                    }
+                    Row(modifier = Modifier
+                        .fillParentMaxWidth()
+                        .fillMaxHeight(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End) {
+                        Column(modifier = Modifier.padding(end = 24.dp)) {
+                            Text(text = item.articleName, fontSize = 11.sp)
                             Row() {
-                                Text("${item.articleQuantity} ")
-                                Text("${item.articlePrice}€")
+                                Text(text = "${item.articleQuantity}x ", fontSize = 11.sp)
+                                Text(text = "${item.articlePrice}€", fontSize = 11.sp, textDecoration = TextDecoration.Underline)
                             }
                         }
                         Image(
-                            painter = painterResource(id = android.R.drawable.ic_delete),
+                            painter = painterResource(id = R.drawable.trash2),
                             contentDescription = "",
-                            alignment = Alignment.CenterEnd,
                             modifier = Modifier
-                                .padding(end = 8.dp)
+                                .padding(end = 12.dp)
                                 .clickable {
                                     item.removeArticleItem()
                                 }
+                                .size(width = 24.dp, height = 24.dp)
                         )
                     }
                 }
             }
         }
-
-        Text("Total Price: $totalPrice")
-
+        Divider(color = Color.LightGray, thickness = 1.dp, modifier = Modifier.padding(top = 25.dp, bottom = 20.dp))
+        Row {
+            Text(text = "Gesamtpreis:", fontSize = 16.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 25.dp))
+            Text(text = "$totalPrice€",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                textDecoration = TextDecoration.Underline,
+                modifier = Modifier
+                    .padding(end = 28.dp)
+                    .fillMaxWidth(),
+                textAlign = TextAlign.End
+            )
+        }
+        Divider(color = Color.LightGray, thickness = 1.dp, modifier = Modifier.padding(top = 20.dp, bottom = 25.dp))
         Button(
             onClick = { /*TODO*/ },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()
+                .height(48.dp)
                 .padding(start = 25.dp, end = 25.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color(176, 213, 83))
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color(176, 213, 83)),
         ) {
-            Text(text = "check out")
+            Text(text = "Zur Kasse gehen", color = Color.White)
         }
     }
 }
@@ -94,8 +142,8 @@ fun ItemBackground(content: @Composable BoxWithConstraintsScope.() -> Unit) {
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
-            .height(100.dp)
-            .padding(start = 25.dp, end = 25.dp, bottom = 22.dp)
+            .height(72.dp)
+            .padding(end = 25.dp, bottom = 22.dp)
             .clip(shape = RoundedCornerShape(20.dp))
             .background(Color(241, 240, 247))
     ) {
