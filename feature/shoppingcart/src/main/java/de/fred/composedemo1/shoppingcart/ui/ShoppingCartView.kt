@@ -9,10 +9,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.fred.composedemo1.shoppingcart.R
+import de.fred.designsystem.divider.Dividers.Divider1DPGray400
+import de.fred.designsystem.text.Text.Text11sp
 import java.math.BigDecimal
 
 @Composable
@@ -33,66 +33,75 @@ fun ShoppingCartContent(viewModel: ShoppingCartViewModel) {
     val shoppingCartItemList = viewModel.shoppingCartItems
     val shoppingCartState by viewModel.shoppingCartState
 
-    when (shoppingCartState) {
-        is ShoppingCartStates.Initial -> {}
+    val ctaButtonEnabled: Boolean = when (shoppingCartState) {
+        is ShoppingCartStates.Initial -> {
+            true
+        }
         is ShoppingCartStates.RemoveArticleItemEvent -> {
             viewModel.removeArticleItem((shoppingCartState as ShoppingCartStates.RemoveArticleItemEvent).articleId)
+            true
         }
+        is ShoppingCartStates.ShoppingCartEmpty -> false
     }
 
     val totalPrice = shoppingCartItemList.sumOf { it.articlePrice }
-    ShoppingCartContent(itemList = shoppingCartItemList, totalPrice = totalPrice)
+
+    ShoppingCartContent(itemList = shoppingCartItemList, totalPrice = totalPrice, ctaButtonEnabled = ctaButtonEnabled)
 }
 
 @Composable
-fun ShoppingCartContent(itemList: List<ShoppingCartItemViewModel>, totalPrice: BigDecimal) {
+fun ShoppingCartContent(itemList: List<ShoppingCartItemViewModel>, totalPrice: BigDecimal, ctaButtonEnabled: Boolean) {
     Column() {
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(start = 25.dp)) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .padding(start = 25.dp, end = 25.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Column {
                 Text(text = "Dein", modifier = Modifier.padding(top = 25.dp), fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Black)
                 Text(text = "Einkaufswagen", color = Color(176, 213, 83), fontWeight = FontWeight.Bold, fontSize = 18.sp)
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .size(56.dp)
-                    .padding(end = 25.dp),
-                contentAlignment = Alignment.CenterEnd,
-            ) {
+
+            BoxWithConstraints(Modifier.size(56.dp)) {
                 Image(
                     painter = painterResource(id = R.drawable.union),
                     contentDescription = "",
+                    modifier = Modifier.fillMaxSize()
                 )
                 Image(
                     painter = painterResource(id = R.drawable.group_150),
                     contentDescription = "",
-                    modifier = Modifier.padding(end = 9.dp, bottom = 6.dp)
+                    modifier = Modifier
+                        .size(40.dp)
+                        .align(Alignment.Center)
                 )
             }
         }
 
         LazyColumn(modifier = Modifier.padding(top = 32.dp, start = 25.dp)) {
             items(items = itemList) { item ->
-                ItemBackground {
-                    Box(modifier = Modifier
-                        .size(width = 83.dp, height = maxHeight),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = item.articleIcon),
-                            contentDescription = "",
-                        )
-                    }
-                    Row(modifier = Modifier
-                        .fillParentMaxWidth()
-                        .fillMaxHeight(),
+                ShoppingCartItemBackground {
+                    Image(
+                        painter = painterResource(id = item.articleIcon),
+                        contentDescription = "",
+                        Modifier
+                            .height(maxHeight)
+                            .width(80.dp)
+                    )
+                    Row(
+                        modifier = Modifier
+                            .fillParentMaxWidth()
+                            .fillMaxHeight(),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.End) {
+                        horizontalArrangement = Arrangement.End
+                    ) {
                         Column(modifier = Modifier.padding(end = 24.dp)) {
-                            Text(text = item.articleName, fontSize = 11.sp)
+                            Text11sp(text = item.articleName)
                             Row() {
-                                Text(text = "${item.articleQuantity}x ", fontSize = 11.sp)
-                                Text(text = "${item.articlePrice}€", fontSize = 11.sp, textDecoration = TextDecoration.Underline)
+                                Text11sp(text = "${item.articleQuantity}x")
+                                Text11sp(text = "${item.articlePrice}€", textDecoration = TextDecoration.Underline)
                             }
                         }
                         Image(
@@ -109,10 +118,11 @@ fun ShoppingCartContent(itemList: List<ShoppingCartItemViewModel>, totalPrice: B
                 }
             }
         }
-        Divider(color = Color.LightGray, thickness = 1.dp, modifier = Modifier.padding(top = 25.dp, bottom = 20.dp))
+        Divider1DPGray400(modifier = Modifier.padding(top = 25.dp, bottom = 20.dp))
         Row {
             Text(text = "Gesamtpreis:", fontSize = 16.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 25.dp))
-            Text(text = "$totalPrice€",
+            Text(
+                text = "$totalPrice€",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 textDecoration = TextDecoration.Underline,
@@ -122,9 +132,10 @@ fun ShoppingCartContent(itemList: List<ShoppingCartItemViewModel>, totalPrice: B
                 textAlign = TextAlign.End
             )
         }
-        Divider(color = Color.LightGray, thickness = 1.dp, modifier = Modifier.padding(top = 20.dp, bottom = 25.dp))
+        Divider1DPGray400(modifier = Modifier.padding(top = 25.dp, bottom = 20.dp))
         Button(
             onClick = { /*TODO*/ },
+            enabled = ctaButtonEnabled,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()
@@ -138,7 +149,7 @@ fun ShoppingCartContent(itemList: List<ShoppingCartItemViewModel>, totalPrice: B
 }
 
 @Composable
-fun ItemBackground(content: @Composable BoxWithConstraintsScope.() -> Unit) {
+fun ShoppingCartItemBackground(content: @Composable BoxWithConstraintsScope.() -> Unit) {
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
@@ -155,12 +166,15 @@ fun ItemBackground(content: @Composable BoxWithConstraintsScope.() -> Unit) {
 @Composable
 fun ShoppingCartContentPreview() {
     ShoppingCartContent(
-        listOf(ShoppingCartItemViewModel(
-            articleId = 1,
-            articleIcon = 0,
-            articleName = "Kuchen",
-            articlePrice = BigDecimal(2),
-            articleQuantity = 1,
-            onRemoveArticleItem = null
-        )), BigDecimal.valueOf(0.0))
+        listOf(
+            ShoppingCartItemViewModel(
+                articleId = 1,
+                articleIcon = 0,
+                articleName = "Kuchen",
+                articlePrice = BigDecimal(2),
+                articleQuantity = 1,
+                onRemoveArticleItem = null
+            )
+        ), BigDecimal.valueOf(0.0), true
+    )
 }
