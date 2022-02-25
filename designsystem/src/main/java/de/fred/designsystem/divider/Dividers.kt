@@ -10,6 +10,6 @@ object Dividers {
 
     @Composable
     fun Divider1DPGray400(modifier: Modifier) {
-        Divider(color = Color.LightGray, thickness = 1.dp, modifier = modifier)
+        Divider(color = Color(242, 242, 242), thickness = 1.dp, modifier = modifier)
     }
 }

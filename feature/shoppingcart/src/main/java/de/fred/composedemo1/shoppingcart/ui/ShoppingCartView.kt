@@ -44,7 +44,7 @@ fun ShoppingCartContent(viewModel: ShoppingCartViewModel) {
         is ShoppingCartStates.ShoppingCartEmpty -> false
     }
 
-    val totalPrice = shoppingCartItemList.sumOf { it.articlePrice }
+    val totalPrice = shoppingCartItemList.sumOf { it.articlePrice.multiply(it.articleQuantity.toBigDecimal()) }
 
     ShoppingCartContent(itemList = shoppingCartItemList, totalPrice = totalPrice, ctaButtonEnabled = ctaButtonEnabled)
 }
@@ -64,20 +64,11 @@ fun ShoppingCartContent(itemList: List<ShoppingCartItemViewModel>, totalPrice: B
                 Text(text = "Einkaufswagen", color = Color(176, 213, 83), fontWeight = FontWeight.Bold, fontSize = 18.sp)
             }
 
-            BoxWithConstraints(Modifier.size(56.dp)) {
-                Image(
-                    painter = painterResource(id = R.drawable.union),
-                    contentDescription = "",
-                    modifier = Modifier.fillMaxSize()
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.group_150),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(40.dp)
-                        .align(Alignment.Center)
-                )
-            }
+            Image(
+                painter = painterResource(id = R.drawable.avatar_with_bubble),
+                contentDescription = "",
+                modifier = Modifier.size(51.dp).padding(top = 16.dp)
+            )
         }
 
         LazyColumn(modifier = Modifier.padding(top = 32.dp, start = 25.dp)) {
@@ -99,9 +90,12 @@ fun ShoppingCartContent(itemList: List<ShoppingCartItemViewModel>, totalPrice: B
                     ) {
                         Column(modifier = Modifier.padding(end = 24.dp)) {
                             Text11sp(text = item.articleName)
-                            Row() {
-                                Text11sp(text = "${item.articleQuantity}x")
-                                Text11sp(text = "${item.articlePrice}€", textDecoration = TextDecoration.Underline)
+                            Row(modifier = Modifier.align(Alignment.End)) {
+                                Text11sp(text = "${item.articleQuantity}x ")
+                                Text11sp(
+                                    text = "${item.articlePrice}€",
+                                    textDecoration = TextDecoration.Underline,
+                                )
                             }
                         }
                         Image(
