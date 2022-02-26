@@ -32,6 +32,7 @@ import java.math.BigDecimal
 fun ShoppingCartContent(viewModel: ShoppingCartViewModel) {
     val shoppingCartItemList = viewModel.shoppingCartItems
     val shoppingCartState by viewModel.shoppingCartState
+    val totalPrice by viewModel.shoppingCartTotalPrice
 
     val ctaButtonEnabled: Boolean = when (shoppingCartState) {
         is ShoppingCartStates.Initial -> {
@@ -44,101 +45,116 @@ fun ShoppingCartContent(viewModel: ShoppingCartViewModel) {
         is ShoppingCartStates.ShoppingCartEmpty -> false
     }
 
-    val totalPrice = shoppingCartItemList.sumOf { it.articlePrice.multiply(it.articleQuantity.toBigDecimal()) }
-
     ShoppingCartContent(itemList = shoppingCartItemList, totalPrice = totalPrice, ctaButtonEnabled = ctaButtonEnabled)
 }
 
+
 @Composable
 fun ShoppingCartContent(itemList: List<ShoppingCartItemViewModel>, totalPrice: BigDecimal, ctaButtonEnabled: Boolean) {
-    Column() {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .padding(start = 25.dp, end = 25.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column {
-                Text(text = "Dein", modifier = Modifier.padding(top = 25.dp), fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Black)
-                Text(text = "Einkaufswagen", color = Color(176, 213, 83), fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            }
+    Column {
+        ShoppingCartHeader()
+        ShoppingCartList(itemList)
+        ShoppingCartBottom(totalPrice, ctaButtonEnabled)
+    }
+}
 
-            Image(
-                painter = painterResource(id = R.drawable.avatar_with_bubble),
-                contentDescription = "",
-                modifier = Modifier.size(51.dp).padding(top = 16.dp)
-            )
+@Composable
+fun ShoppingCartHeader() {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .padding(start = 25.dp, end = 25.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column {
+            Text(text = "Dein", modifier = Modifier.padding(top = 25.dp), fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+            Text(text = "Einkaufswagen", color = Color(176, 213, 83), fontWeight = FontWeight.Bold, fontSize = 18.sp)
         }
 
-        LazyColumn(modifier = Modifier.padding(top = 32.dp, start = 25.dp)) {
-            items(items = itemList) { item ->
-                ShoppingCartItemBackground {
-                    Image(
-                        painter = painterResource(id = item.articleIcon),
-                        contentDescription = "",
-                        Modifier
-                            .height(maxHeight)
-                            .width(80.dp)
-                    )
-                    Row(
-                        modifier = Modifier
-                            .fillParentMaxWidth()
-                            .fillMaxHeight(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        Column(modifier = Modifier.padding(end = 24.dp)) {
-                            Text11sp(text = item.articleName)
-                            Row(modifier = Modifier.align(Alignment.End)) {
-                                Text11sp(text = "${item.articleQuantity}x ")
-                                Text11sp(
-                                    text = "${item.articlePrice}€",
-                                    textDecoration = TextDecoration.Underline,
-                                )
-                            }
+        Image(
+            painter = painterResource(id = R.drawable.avatar_with_bubble),
+            contentDescription = "",
+            modifier = Modifier
+                .size(51.dp)
+                .padding(top = 16.dp)
+        )
+    }
+}
+
+@Composable
+fun ShoppingCartList(itemList: List<ShoppingCartItemViewModel>) {
+    LazyColumn(modifier = Modifier.padding(top = 32.dp, start = 25.dp)) {
+        items(items = itemList) { item ->
+            ShoppingCartItemBackground {
+                Image(
+                    painter = painterResource(id = item.articleIcon),
+                    contentDescription = "",
+                    Modifier
+                        .height(maxHeight)
+                        .width(80.dp)
+                )
+                Row(
+                    modifier = Modifier
+                        .fillParentMaxWidth()
+                        .fillMaxHeight(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Column(modifier = Modifier.padding(end = 24.dp)) {
+                        Text11sp(text = item.articleName)
+                        Row(modifier = Modifier.align(Alignment.End)) {
+                            Text11sp(text = "${item.articleQuantity}x ")
+                            Text11sp(
+                                text = "${item.articlePrice}€",
+                                textDecoration = TextDecoration.Underline,
+                            )
                         }
-                        Image(
-                            painter = painterResource(id = R.drawable.trash2),
-                            contentDescription = "",
-                            modifier = Modifier
-                                .padding(end = 12.dp)
-                                .clickable {
-                                    item.removeArticleItem()
-                                }
-                                .size(width = 24.dp, height = 24.dp)
-                        )
                     }
+                    Image(
+                        painter = painterResource(id = R.drawable.trash2),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .padding(end = 12.dp)
+                            .clickable {
+                                item.removeArticleItem()
+                            }
+                            .size(width = 24.dp, height = 24.dp)
+                    )
                 }
             }
         }
-        Divider1DPGray400(modifier = Modifier.padding(top = 25.dp, bottom = 20.dp))
-        Row {
-            Text(text = "Gesamtpreis:", fontSize = 16.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 25.dp))
-            Text(
-                text = "$totalPrice€",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                textDecoration = TextDecoration.Underline,
-                modifier = Modifier
-                    .padding(end = 28.dp)
-                    .fillMaxWidth(),
-                textAlign = TextAlign.End
-            )
-        }
-        Divider1DPGray400(modifier = Modifier.padding(top = 25.dp, bottom = 20.dp))
-        Button(
-            onClick = { /*TODO*/ },
-            enabled = ctaButtonEnabled,
+    }
+}
+
+@Composable
+fun ColumnScope.ShoppingCartBottom(totalPrice: BigDecimal, ctaButtonEnabled: Boolean) {
+    Divider1DPGray400(modifier = Modifier.padding(top = 25.dp, bottom = 20.dp))
+    Row {
+        Text(text = "Gesamtpreis:", fontSize = 16.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 25.dp))
+        Text(
+            text = "$totalPrice€",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            textDecoration = TextDecoration.Underline,
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .fillMaxWidth()
-                .height(48.dp)
-                .padding(start = 25.dp, end = 25.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color(176, 213, 83)),
-        ) {
-            Text(text = "Zur Kasse gehen", color = Color.White)
-        }
+                .padding(end = 28.dp)
+                .fillMaxWidth(),
+            textAlign = TextAlign.End
+        )
+    }
+    Divider1DPGray400(modifier = Modifier.padding(top = 25.dp, bottom = 20.dp))
+    Button(
+        onClick = { /*TODO*/ },
+        enabled = ctaButtonEnabled,
+        modifier = Modifier
+            .align(Alignment.CenterHorizontally)
+            .fillMaxWidth()
+            .height(48.dp)
+            .padding(start = 25.dp, end = 25.dp),
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color(176, 213, 83)),
+    ) {
+        Text(text = "Zur Kasse gehen", color = Color.White)
     }
 }
 

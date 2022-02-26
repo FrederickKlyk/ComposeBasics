@@ -1,6 +1,7 @@
 package de.fred.composedemo1.shoppingcart.ui
 
 import android.util.Log
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -13,6 +14,8 @@ class ShoppingCartViewModel : BaseViewModel<ShoppingCartViewModel>() {
     private val _shoppingCartItems = mutableStateListOf<ShoppingCartItemViewModel>()
     val shoppingCartItems: SnapshotStateList<ShoppingCartItemViewModel>
         get() = _shoppingCartItems
+    val shoppingCartTotalPrice: State<BigDecimal>
+        get() = mutableStateOf(_shoppingCartItems.sumOf { it.articlePrice.multiply(it.articleQuantity.toBigDecimal()) })
 
     val shoppingCartState = mutableStateOf<ShoppingCartStates>(ShoppingCartStates.Initial)
 
@@ -35,6 +38,13 @@ class ShoppingCartViewModel : BaseViewModel<ShoppingCartViewModel>() {
         if (_shoppingCartItems.isEmpty()) shoppingCartState.value = ShoppingCartStates.ShoppingCartEmpty
     }
 
-    fun toShoppingCartItemViewModel(articleId: Int, articleIcon: Int, articleName: String, articlePrice: BigDecimal, articleQuantity: Int) =
-        ShoppingCartItemViewModel(articleId, articleIcon, articleName, articlePrice, articleQuantity, shoppingCartState)
+    private fun toShoppingCartItemViewModel(articleId: Int, articleIcon: Int, articleName: String, articlePrice: BigDecimal, articleQuantity: Int) =
+        ShoppingCartItemViewModel(
+            articleId = articleId,
+            articleIcon = articleIcon,
+            articleName = articleName,
+            articlePrice = articlePrice,
+            articleQuantity = articleQuantity,
+            onRemoveArticleItem = shoppingCartState
+        )
 }
