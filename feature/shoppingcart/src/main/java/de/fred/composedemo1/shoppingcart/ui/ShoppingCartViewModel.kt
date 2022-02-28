@@ -38,6 +38,11 @@ class ShoppingCartViewModel : BaseViewModel<ShoppingCartViewModel>() {
         if (_shoppingCartItems.isEmpty()) shoppingCartState.value = ShoppingCartStates.ShoppingCartEmpty
     }
 
+    fun startCashOutProcess(){
+        Log.d("shoppingCart", "cashOut Button clicked")
+        //TODO: TBD
+    }
+
     private fun toShoppingCartItemViewModel(articleId: Int, articleIcon: Int, articleName: String, articlePrice: BigDecimal, articleQuantity: Int) =
         ShoppingCartItemViewModel(
             articleId = articleId,

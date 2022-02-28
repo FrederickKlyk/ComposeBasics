@@ -45,16 +45,25 @@ fun ShoppingCartContent(viewModel: ShoppingCartViewModel) {
         is ShoppingCartStates.ShoppingCartEmpty -> false
     }
 
-    ShoppingCartContent(itemList = shoppingCartItemList, totalPrice = totalPrice, ctaButtonEnabled = ctaButtonEnabled)
+    ShoppingCartContent(itemList = shoppingCartItemList,
+        totalPrice = totalPrice,
+        ctaButtonEnabled = ctaButtonEnabled,
+        startCashOutProcess = viewModel::startCashOutProcess
+    )
 }
 
 
 @Composable
-fun ShoppingCartContent(itemList: List<ShoppingCartItemViewModel>, totalPrice: BigDecimal, ctaButtonEnabled: Boolean) {
+fun ShoppingCartContent(
+    itemList: List<ShoppingCartItemViewModel>,
+    totalPrice: BigDecimal,
+    ctaButtonEnabled: Boolean,
+    startCashOutProcess: () -> Unit,
+) {
     Column {
         ShoppingCartHeader()
         ShoppingCartList(itemList)
-        ShoppingCartBottom(totalPrice, ctaButtonEnabled)
+        ShoppingCartBottom(totalPrice, ctaButtonEnabled, startCashOutProcess)
     }
 }
 
@@ -128,7 +137,7 @@ fun ShoppingCartList(itemList: List<ShoppingCartItemViewModel>) {
 }
 
 @Composable
-fun ColumnScope.ShoppingCartBottom(totalPrice: BigDecimal, ctaButtonEnabled: Boolean) {
+fun ColumnScope.ShoppingCartBottom(totalPrice: BigDecimal, ctaButtonEnabled: Boolean, startCashOutProcess: () -> Unit) {
     Divider1DPGray400(modifier = Modifier.padding(top = 25.dp, bottom = 20.dp))
     Row {
         Text(text = "Gesamtpreis:", fontSize = 16.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 25.dp))
@@ -145,7 +154,7 @@ fun ColumnScope.ShoppingCartBottom(totalPrice: BigDecimal, ctaButtonEnabled: Boo
     }
     Divider1DPGray400(modifier = Modifier.padding(top = 25.dp, bottom = 20.dp))
     Button(
-        onClick = { /*TODO*/ },
+        onClick = startCashOutProcess,
         enabled = ctaButtonEnabled,
         modifier = Modifier
             .align(Alignment.CenterHorizontally)
@@ -185,6 +194,9 @@ fun ShoppingCartContentPreview() {
                 articleQuantity = 1,
                 onRemoveArticleItem = null
             )
-        ), BigDecimal.valueOf(0.0), true
+        ),
+        BigDecimal.valueOf(0.0),
+        true,
+        {}
     )
 }
