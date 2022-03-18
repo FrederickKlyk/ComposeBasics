@@ -19,7 +19,7 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 
 
-@Composable
+@Composable // stateful
 fun FeatureSecondContent(viewModel: FeatureSecondViewModel, secondFeatureModuleID: String) {
     val uiStateFlow by viewModel.uiStateFlow.collectAsState()
     val uiState by viewModel.uiState
@@ -31,8 +31,8 @@ fun FeatureSecondContent(viewModel: FeatureSecondViewModel, secondFeatureModuleI
         secondFeatureModuleID = secondFeatureModuleID,
         uiStateFlow = uiStateFlow,
         uiState = uiState,
-        incrementUiStateInteger = viewModel::incrementUiStateFlowInteger,
-        downloadFakeData = viewModel::downloadDataFromRepository,
+        incrementUiStateFlowInteger = viewModel::incrementUiStateFlowInteger,
+        downloadDataFromRepository = viewModel::downloadDataFromRepository,
         navigateToThirdFeatureModule = viewModel::navigateToThirdFeatureModule,
         startCoroutineConti = viewModel::coroutineContinuation,
         continuation = continuation,
@@ -40,14 +40,51 @@ fun FeatureSecondContent(viewModel: FeatureSecondViewModel, secondFeatureModuleI
     )
 }
 
+@Composable // stateless
+fun FeatureSecondContent(
+    uiStateFlow: Int,
+    uiState: FeatureSecondUIState,
+    incrementUiStateFlowInteger: () -> Unit,
+    downloadDataFromRepository: () -> Unit
+) {
+    Column() {
+        when (uiState) {
+            is FeatureSecondUIState.Error -> {
+                Text("Error caused by: ${uiState.message}")
+            }
+            FeatureSecondUIState.Initial -> {
+                Text("Initial state")
+            }
+            FeatureSecondUIState.Loaded -> {
+                Text("Loaded successfully")
+            }
+            is FeatureSecondUIState.Loading -> {
+                Text("Actual Progress: ${uiState.progress}")
+            }
+        }
+        Text("The actual Integer of the stateFlow is: $uiStateFlow")
+        Button(onClick = incrementUiStateFlowInteger) {
+            Text("Incremnt number")
+        }
+        Button(onClick = downloadDataFromRepository, enabled = uiState !is FeatureSecondUIState.Loading) {
+            Text("Download some data from the repository")
+        }
+    }
+}
 
+@Preview
 @Composable
+private fun FeatureSecondContentPreview2() {
+    FeatureSecondContent(1, FeatureSecondUIState.Initial, {}, {})
+}
+
+@Composable // stateless
 fun FeatureSecondContent(
     secondFeatureModuleID: String,
     uiStateFlow: Int,
     uiState: FeatureSecondUIState,
-    incrementUiStateInteger: () -> Unit,
-    downloadFakeData: () -> Unit,
+    incrementUiStateFlowInteger: () -> Unit,
+    downloadDataFromRepository: () -> Unit,
     navigateToThirdFeatureModule: () -> Unit,
     startCoroutineConti: () -> Unit,
     continuation: Continuation<Boolean>?,
@@ -92,10 +129,10 @@ fun FeatureSecondContent(
                 }
             }
             Text("Hallo, dies ist das secondFeature Module mit dem Übergabeparamter $secondFeatureModuleID, die Intnumber von stateFlow: $uiStateFlow")
-            Button(onClick = incrementUiStateInteger) {
+            Button(onClick = incrementUiStateFlowInteger) {
                 Text("Erhöhe die Zahl")
             }
-            Button(onClick = downloadFakeData, enabled = uiState !is FeatureSecondUIState.Loading) {
+            Button(onClick = downloadDataFromRepository, enabled = uiState !is FeatureSecondUIState.Loading) {
                 Text("Lade etwas runter")
             }
             Button(onClick = navigateToThirdFeatureModule) {
