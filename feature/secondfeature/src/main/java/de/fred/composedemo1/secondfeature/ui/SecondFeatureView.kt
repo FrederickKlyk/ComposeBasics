@@ -34,7 +34,7 @@ fun FeatureSecondContent(viewModel: FeatureSecondViewModel, secondFeatureModuleI
         incrementUiStateFlowInteger = viewModel::incrementUiStateFlowInteger,
         downloadDataFromRepository = viewModel::downloadDataFromRepository,
         navigateToThirdFeatureModule = viewModel::navigateToThirdFeatureModule,
-        startCoroutineConti = viewModel::coroutineContinuation,
+        startCoroutineContinue = viewModel::coroutineContinuation,
         continuation = continuation,
         cancel = cancel
     )
@@ -86,7 +86,7 @@ fun FeatureSecondContent(
     incrementUiStateFlowInteger: () -> Unit,
     downloadDataFromRepository: () -> Unit,
     navigateToThirdFeatureModule: () -> Unit,
-    startCoroutineConti: () -> Unit,
+    startCoroutineContinue: () -> Unit,
     continuation: Continuation<Boolean>?,
     cancel: CancellableContinuation<Boolean>?,
 ) {
@@ -138,7 +138,7 @@ fun FeatureSecondContent(
             Button(onClick = navigateToThirdFeatureModule) {
                 Text("weiter zum dritten FeatureModule")
             }
-            Button(onClick = startCoroutineConti) {
+            Button(onClick = startCoroutineContinue) {
                 Text("start Coroutine Conti")
             }
             Button(onClick = { continuation?.resume(true) }) {
