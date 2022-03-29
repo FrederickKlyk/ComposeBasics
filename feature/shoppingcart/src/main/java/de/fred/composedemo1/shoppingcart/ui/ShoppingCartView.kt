@@ -45,7 +45,8 @@ fun ShoppingCartContent(viewModel: ShoppingCartViewModel) {
         is ShoppingCartStates.ShoppingCartEmpty -> false
     }
 
-    ShoppingCartContent(itemList = shoppingCartItemList,
+    ShoppingCartContent(
+        itemList = shoppingCartItemList,
         totalPrice = totalPrice,
         ctaButtonEnabled = ctaButtonEnabled,
         startCashOutProcess = viewModel::startCashOutProcess
