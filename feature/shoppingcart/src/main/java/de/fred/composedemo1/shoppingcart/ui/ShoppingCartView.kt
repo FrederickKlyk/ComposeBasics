@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.fred.composedemo1.shoppingcart.R
+import de.fred.designsystem.buttons.Buttons.CTAButtonGreen
 import de.fred.designsystem.divider.Dividers.Divider1DPGray400
 import de.fred.designsystem.text.Text.Text11sp
 import java.math.BigDecimal
@@ -171,18 +172,12 @@ fun ColumnScope.ShoppingCartBottom(totalPrice: BigDecimal, ctaButtonEnabled: Boo
         )
     }
     Divider1DPGray400(modifier = Modifier.padding(top = 25.dp, bottom = 20.dp))
-    Button(
-        onClick = startCashOutProcess,
-        enabled = ctaButtonEnabled,
-        modifier = Modifier
-            .align(Alignment.CenterHorizontally)
-            .fillMaxWidth()
-            .height(48.dp)
-            .padding(start = 25.dp, end = 25.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color(176, 213, 83)),
-    ) {
-        Text(text = stringResource(R.string.shopping_cart_cta_label), color = Color.White)
-    }
+
+    CTAButtonGreen(
+        text = stringResource(R.string.shopping_cart_cta_label),
+        ctaButtonEnabled = ctaButtonEnabled,
+        onButtonClickCallback = startCashOutProcess
+    )
 }
 
 @Composable
