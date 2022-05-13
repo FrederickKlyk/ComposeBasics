@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -78,8 +79,8 @@ fun ShoppingCartHeader() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column {
-            Text(text = "Dein", modifier = Modifier.padding(top = 25.dp), fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Black)
-            Text(text = "Einkaufswagen", color = Color(176, 213, 83), fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Text(text = stringResource(R.string.shopping_cart_header_label_first), modifier = Modifier.padding(top = 25.dp), fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+            Text(text = stringResource(R.string.shopping_cart_header_label_last), color = Color(176, 213, 83), fontWeight = FontWeight.Bold, fontSize = 18.sp)
         }
 
         Image(
@@ -141,7 +142,7 @@ fun ShoppingCartList(itemList: List<ShoppingCartItemViewModel>) {
 fun ColumnScope.ShoppingCartBottom(totalPrice: BigDecimal, ctaButtonEnabled: Boolean, startCashOutProcess: () -> Unit) {
     Divider1DPGray400(modifier = Modifier.padding(top = 25.dp, bottom = 20.dp))
     Row {
-        Text(text = "Gesamtpreis:", fontSize = 16.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 25.dp))
+        Text(text = stringResource(R.string.shopping_cart_price_label), fontSize = 16.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 25.dp))
         Text(
             text = "$totalPrice€",
             fontSize = 16.sp,
@@ -164,7 +165,7 @@ fun ColumnScope.ShoppingCartBottom(totalPrice: BigDecimal, ctaButtonEnabled: Boo
             .padding(start = 25.dp, end = 25.dp),
         colors = ButtonDefaults.buttonColors(backgroundColor = Color(176, 213, 83)),
     ) {
-        Text(text = "Zur Kasse gehen", color = Color.White)
+        Text(text = stringResource(R.string.shopping_cart_cta_label), color = Color.White)
     }
 }
 
