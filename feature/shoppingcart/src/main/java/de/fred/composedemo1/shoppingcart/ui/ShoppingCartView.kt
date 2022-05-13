@@ -79,8 +79,19 @@ fun ShoppingCartHeader() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column {
-            Text(text = stringResource(R.string.shopping_cart_header_label_first), modifier = Modifier.padding(top = 25.dp), fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Black)
-            Text(text = stringResource(R.string.shopping_cart_header_label_last), color = Color(176, 213, 83), fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Text(
+                text = stringResource(R.string.shopping_cart_header_label_first),
+                modifier = Modifier.padding(top = 25.dp),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+            Text(
+                text = stringResource(R.string.shopping_cart_header_label_last),
+                color = Color(176, 213, 83),
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp
+            )
         }
 
         Image(
@@ -142,7 +153,12 @@ fun ShoppingCartList(itemList: List<ShoppingCartItemViewModel>) {
 fun ColumnScope.ShoppingCartBottom(totalPrice: BigDecimal, ctaButtonEnabled: Boolean, startCashOutProcess: () -> Unit) {
     Divider1DPGray400(modifier = Modifier.padding(top = 25.dp, bottom = 20.dp))
     Row {
-        Text(text = stringResource(R.string.shopping_cart_price_label), fontSize = 16.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 25.dp))
+        Text(
+            text = stringResource(R.string.shopping_cart_price_label),
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(start = 25.dp)
+        )
         Text(
             text = "$totalPrice€",
             fontSize = 16.sp,
@@ -185,12 +201,43 @@ fun ShoppingCartItemBackground(content: @Composable BoxWithConstraintsScope.() -
 
 @Preview
 @Composable
+fun ShoppingCartHeaderPreview() {
+    ShoppingCartHeader()
+}
+
+@Preview
+@Composable
+fun ShoppingCartListPreview() {
+    ShoppingCartList(
+        listOf(
+            ShoppingCartItemViewModel(
+                articleId = 1,
+                articleIcon = R.drawable.article1,
+                articleName = "Kuchen",
+                articlePrice = BigDecimal(2),
+                articleQuantity = 1,
+                onRemoveArticleItem = null
+            )
+        )
+    )
+}
+
+@Preview
+@Composable
+fun ShoppingCartBottomPreview() {
+    Column {
+        ShoppingCartBottom(BigDecimal.valueOf(11), true, { })
+    }
+}
+
+@Preview
+@Composable
 fun ShoppingCartContentPreview() {
     ShoppingCartContent(
         listOf(
             ShoppingCartItemViewModel(
                 articleId = 1,
-                articleIcon = 0,
+                articleIcon = R.drawable.article1,
                 articleName = "Kuchen",
                 articlePrice = BigDecimal(2),
                 articleQuantity = 1,
