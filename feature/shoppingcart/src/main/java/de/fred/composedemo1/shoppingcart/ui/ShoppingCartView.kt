@@ -1,20 +1,17 @@
 package de.fred.composedemo1.shoppingcart.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -26,47 +23,36 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.fred.composedemo1.shoppingcart.R
 import de.fred.designsystem.buttons.Buttons.CTAButtonGreen
+import de.fred.designsystem.cart.CartItem.ShoppingCartItemBackground
 import de.fred.designsystem.divider.Dividers.Divider1DPGray400
 import de.fred.designsystem.text.Text.Text11sp
 import java.math.BigDecimal
 
-@Composable
+@Composable // stateful composable function
 fun ShoppingCartContent(viewModel: ShoppingCartViewModel) {
-    val shoppingCartItemList = viewModel.shoppingCartItems
-    val shoppingCartState by viewModel.shoppingCartState
-    val totalPrice by viewModel.shoppingCartTotalPrice
-
-    val ctaButtonEnabled: Boolean = when (shoppingCartState) {
-        is ShoppingCartStates.Initial -> {
-            true
-        }
-        is ShoppingCartStates.RemoveArticleItemEvent -> {
-            viewModel.removeArticleItem((shoppingCartState as ShoppingCartStates.RemoveArticleItemEvent).articleId)
-            true
-        }
-        is ShoppingCartStates.ShoppingCartEmpty -> false
-    }
+    val shoppingCartItemList: List<CartItemSuperViewModel> = viewModel.shoppingCartItems
+    val totalPrice by viewModel.shoppingCartTotalPriceState
+    val isCtaButtonEnabled by viewModel.isCtaButtonEnabledState
 
     ShoppingCartContent(
-        itemList = shoppingCartItemList,
+        shoppingCartItemList = shoppingCartItemList,
         totalPrice = totalPrice,
-        ctaButtonEnabled = ctaButtonEnabled,
+        isCtaButtonEnabled = isCtaButtonEnabled,
         startCashOutProcess = viewModel::startCashOutProcess
     )
 }
 
-
 @Composable
 fun ShoppingCartContent(
-    itemList: List<ShoppingCartItemViewModel>,
+    shoppingCartItemList: List<CartItemSuperViewModel>,
     totalPrice: BigDecimal,
-    ctaButtonEnabled: Boolean,
+    isCtaButtonEnabled: Boolean,
     startCashOutProcess: () -> Unit,
 ) {
     Column {
         ShoppingCartHeader()
-        ShoppingCartList(itemList)
-        ShoppingCartBottom(totalPrice, ctaButtonEnabled, startCashOutProcess)
+        ShoppingCartList(shoppingCartItemList)
+        ShoppingCartBottom(totalPrice, isCtaButtonEnabled, startCashOutProcess)
     }
 }
 
@@ -106,12 +92,12 @@ fun ShoppingCartHeader() {
 }
 
 @Composable
-fun ShoppingCartList(itemList: List<ShoppingCartItemViewModel>) {
+fun ShoppingCartList(shoppingCartItemList: List<CartItemSuperViewModel>) {
     LazyColumn(modifier = Modifier.padding(top = 32.dp, start = 25.dp)) {
-        items(items = itemList) { item ->
+        items(items = shoppingCartItemList) { shoppingCartItem ->
             ShoppingCartItemBackground {
                 Image(
-                    painter = painterResource(id = item.articleIcon),
+                    painter = painterResource(id = shoppingCartItem.cartItemArticleData.articleIcon),
                     contentDescription = "",
                     Modifier
                         .height(maxHeight)
@@ -125,11 +111,11 @@ fun ShoppingCartList(itemList: List<ShoppingCartItemViewModel>) {
                     horizontalArrangement = Arrangement.End
                 ) {
                     Column(modifier = Modifier.padding(end = 24.dp)) {
-                        Text11sp(text = item.articleName)
+                        Text11sp(text = shoppingCartItem.cartItemArticleData.articleName)
                         Row(modifier = Modifier.align(Alignment.End)) {
-                            Text11sp(text = "${item.articleQuantity}x ")
+                            Text11sp(text = "${shoppingCartItem.cartItemArticleData.articleQuantity}x ")
                             Text11sp(
-                                text = "${item.articlePrice}€",
+                                text = "${shoppingCartItem.cartItemArticleData.articlePrice}€",
                                 textDecoration = TextDecoration.Underline,
                             )
                         }
@@ -140,7 +126,7 @@ fun ShoppingCartList(itemList: List<ShoppingCartItemViewModel>) {
                         modifier = Modifier
                             .padding(end = 12.dp)
                             .clickable {
-                                item.removeArticleItem()
+                                shoppingCartItem.removeArticleItemFromShoppingCart()
                             }
                             .size(width = 24.dp, height = 24.dp)
                     )
@@ -151,7 +137,7 @@ fun ShoppingCartList(itemList: List<ShoppingCartItemViewModel>) {
 }
 
 @Composable
-fun ColumnScope.ShoppingCartBottom(totalPrice: BigDecimal, ctaButtonEnabled: Boolean, startCashOutProcess: () -> Unit) {
+fun ColumnScope.ShoppingCartBottom(totalPrice: BigDecimal, isCtaButtonEnabled: Boolean, startCashOutProcess: () -> Unit) {
     Divider1DPGray400(modifier = Modifier.padding(top = 25.dp, bottom = 20.dp))
     Row {
         Text(
@@ -175,23 +161,9 @@ fun ColumnScope.ShoppingCartBottom(totalPrice: BigDecimal, ctaButtonEnabled: Boo
 
     CTAButtonGreen(
         text = stringResource(R.string.shopping_cart_cta_label),
-        ctaButtonEnabled = ctaButtonEnabled,
+        isCtaButtonEnabled = isCtaButtonEnabled,
         onButtonClickCallback = startCashOutProcess
     )
-}
-
-@Composable
-fun ShoppingCartItemBackground(content: @Composable BoxWithConstraintsScope.() -> Unit) {
-    BoxWithConstraints(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(72.dp)
-            .padding(end = 25.dp, bottom = 22.dp)
-            .clip(shape = RoundedCornerShape(20.dp))
-            .background(Color(241, 240, 247))
-    ) {
-        content()
-    }
 }
 
 @Preview
@@ -206,12 +178,14 @@ fun ShoppingCartListPreview() {
     ShoppingCartList(
         listOf(
             ShoppingCartItemViewModel(
-                articleId = 1,
-                articleIcon = R.drawable.article1,
-                articleName = "Kuchen",
-                articlePrice = BigDecimal(2),
-                articleQuantity = 1,
-                onRemoveArticleItem = null
+                cartItemArticleData = CartItemArticleData(
+                    articleId = 1,
+                    articleIcon = R.drawable.article1,
+                    articleName = "Kuchen",
+                    articlePrice = BigDecimal(2),
+                    articleQuantity = 1
+                ),
+                onShoppingCartStateEvent = remember { mutableStateOf(ShoppingCartStates.Initial) }
             )
         )
     )
@@ -231,12 +205,14 @@ fun ShoppingCartContentPreview() {
     ShoppingCartContent(
         listOf(
             ShoppingCartItemViewModel(
-                articleId = 1,
-                articleIcon = R.drawable.article1,
-                articleName = "Kuchen",
-                articlePrice = BigDecimal(2),
-                articleQuantity = 1,
-                onRemoveArticleItem = null
+                cartItemArticleData = CartItemArticleData(
+                    articleId = 1,
+                    articleIcon = R.drawable.article1,
+                    articleName = "Kuchen",
+                    articlePrice = BigDecimal(2),
+                    articleQuantity = 1
+                ),
+                onShoppingCartStateEvent = remember { mutableStateOf(ShoppingCartStates.Initial) }
             )
         ),
         BigDecimal.valueOf(0.0),

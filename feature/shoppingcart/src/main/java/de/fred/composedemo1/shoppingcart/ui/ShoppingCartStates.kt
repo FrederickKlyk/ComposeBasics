@@ -1,7 +1,7 @@
 package de.fred.composedemo1.shoppingcart.ui
 
-sealed class ShoppingCartStates() {
+sealed class ShoppingCartStates {
     object Initial : ShoppingCartStates()
-    data class RemoveArticleItemEvent(val articleId: Int) : ShoppingCartStates()
-    object ShoppingCartEmpty : ShoppingCartStates()
+    data class RemoveArticleItemFromShoppingCartEvent(val articleId: Int) : ShoppingCartStates()
 }
+

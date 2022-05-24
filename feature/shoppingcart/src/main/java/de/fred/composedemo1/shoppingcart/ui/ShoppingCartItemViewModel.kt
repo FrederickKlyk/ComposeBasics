@@ -4,15 +4,11 @@ import androidx.compose.runtime.MutableState
 import java.math.BigDecimal
 
 class ShoppingCartItemViewModel(
-    val articleId: Int,
-    val articleIcon: Int,
-    val articleName: String,
-    val articlePrice: BigDecimal,
-    val articleQuantity: Int,
-    val onRemoveArticleItem: MutableState<ShoppingCartStates>?,
-) {
+    override val cartItemArticleData: CartItemArticleData,
+    val onShoppingCartStateEvent: MutableState<ShoppingCartStates>,
+) : CartItemSuperViewModel(cartItemArticleData) {
 
-    fun removeArticleItem() {
-        onRemoveArticleItem?.value = ShoppingCartStates.RemoveArticleItemEvent(articleId)
+    override fun removeArticleItemFromShoppingCart() {
+        onShoppingCartStateEvent.value = ShoppingCartStates.RemoveArticleItemFromShoppingCartEvent(cartItemArticleData.articleId)
     }
 }

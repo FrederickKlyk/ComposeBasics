@@ -1,4 +1,4 @@
-package de.fred.designsystem.buttons.base
+package de.fred.designsystem.base
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

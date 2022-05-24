@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import de.fred.composedemo1.navigation.NavTarget
 import de.fred.composedemo1.navigation.Navigator
 import de.fred.composedemo1.secondfeature.ui.FeatureSecondUIState.Initial
-import de.fred.designsystem.buttons.base.BaseViewModel
+import de.fred.designsystem.base.BaseViewModel
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*

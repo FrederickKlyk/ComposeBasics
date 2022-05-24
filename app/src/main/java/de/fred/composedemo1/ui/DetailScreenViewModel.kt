@@ -3,7 +3,7 @@ package de.fred.composedemo1.ui
 import dagger.hilt.android.lifecycle.HiltViewModel
 import de.fred.composedemo1.navigation.NavTarget
 import de.fred.composedemo1.navigation.Navigator
-import de.fred.designsystem.buttons.base.BaseViewModel
+import de.fred.designsystem.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel

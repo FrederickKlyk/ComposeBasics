@@ -25,10 +25,10 @@ object Buttons {
     }
 
     @Composable
-    fun ColumnScope.CTAButtonGreen(text: String, ctaButtonEnabled: Boolean, onButtonClickCallback: () -> Unit) {
+    fun ColumnScope.CTAButtonGreen(text: String, isCtaButtonEnabled: Boolean, onButtonClickCallback: () -> Unit) {
         Button(
             onClick = onButtonClickCallback,
-            enabled = ctaButtonEnabled,
+            enabled = isCtaButtonEnabled,
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(176, 213, 83)),
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
