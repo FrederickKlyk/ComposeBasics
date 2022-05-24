@@ -24,13 +24,15 @@ import androidx.compose.ui.unit.sp
 import de.fred.composedemo1.shoppingcart.R
 import de.fred.designsystem.buttons.Buttons.CTAButtonGreen
 import de.fred.designsystem.cart.CartItem.ShoppingCartItemBackground
+import de.fred.designsystem.colors.Colors.green100
+import de.fred.designsystem.dimensions.Dimensions.padding24
 import de.fred.designsystem.divider.Dividers.Divider1DPGray400
 import de.fred.designsystem.text.Text.Text11sp
 import java.math.BigDecimal
 
 @Composable // stateful composable function
 fun ShoppingCartContent(viewModel: ShoppingCartViewModel) {
-    val shoppingCartItemList: List<CartItemSuperViewModel> = viewModel.shoppingCartItems
+    val shoppingCartItemList: List<ShoppingCartItemSuperViewModel> = viewModel.shoppingCartItems
     val totalPrice by viewModel.shoppingCartTotalPriceState
     val isCtaButtonEnabled by viewModel.isCtaButtonEnabledState
 
@@ -42,9 +44,9 @@ fun ShoppingCartContent(viewModel: ShoppingCartViewModel) {
     )
 }
 
-@Composable
+@Composable // stateless composable function
 fun ShoppingCartContent(
-    shoppingCartItemList: List<CartItemSuperViewModel>,
+    shoppingCartItemList: List<ShoppingCartItemSuperViewModel>,
     totalPrice: BigDecimal,
     isCtaButtonEnabled: Boolean,
     startCashOutProcess: () -> Unit,
@@ -61,26 +63,25 @@ fun ShoppingCartHeader() {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
-            .padding(start = 25.dp, end = 25.dp)
+            .padding(start = padding24, end = padding24)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column {
             Text(
                 text = stringResource(R.string.shopping_cart_header_label_first),
-                modifier = Modifier.padding(top = 25.dp),
+                modifier = Modifier.padding(top = padding24),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
             Text(
                 text = stringResource(R.string.shopping_cart_header_label_last),
-                color = Color(176, 213, 83),
+                color = green100,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
             )
         }
-
         Image(
             painter = painterResource(id = R.drawable.avatar_with_bubble),
             contentDescription = "",
@@ -92,8 +93,8 @@ fun ShoppingCartHeader() {
 }
 
 @Composable
-fun ShoppingCartList(shoppingCartItemList: List<CartItemSuperViewModel>) {
-    LazyColumn(modifier = Modifier.padding(top = 32.dp, start = 25.dp)) {
+fun ShoppingCartList(shoppingCartItemList: List<ShoppingCartItemSuperViewModel>) {
+    LazyColumn(modifier = Modifier.padding(top = 32.dp, start = padding24)) {
         items(items = shoppingCartItemList) { shoppingCartItem ->
             ShoppingCartItemBackground {
                 Image(
@@ -110,7 +111,7 @@ fun ShoppingCartList(shoppingCartItemList: List<CartItemSuperViewModel>) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.End
                 ) {
-                    Column(modifier = Modifier.padding(end = 24.dp)) {
+                    Column(modifier = Modifier.padding(end = padding24)) {
                         Text11sp(text = shoppingCartItem.cartItemArticleData.articleName)
                         Row(modifier = Modifier.align(Alignment.End)) {
                             Text11sp(text = "${shoppingCartItem.cartItemArticleData.articleQuantity}x ")
@@ -128,7 +129,7 @@ fun ShoppingCartList(shoppingCartItemList: List<CartItemSuperViewModel>) {
                             .clickable {
                                 shoppingCartItem.removeArticleItemFromShoppingCart()
                             }
-                            .size(width = 24.dp, height = 24.dp)
+                            .size(width = padding24, height = padding24)
                     )
                 }
             }
@@ -138,13 +139,13 @@ fun ShoppingCartList(shoppingCartItemList: List<CartItemSuperViewModel>) {
 
 @Composable
 fun ColumnScope.ShoppingCartBottom(totalPrice: BigDecimal, isCtaButtonEnabled: Boolean, startCashOutProcess: () -> Unit) {
-    Divider1DPGray400(modifier = Modifier.padding(top = 25.dp, bottom = 20.dp))
+    Divider1DPGray400(modifier = Modifier.padding(top = padding24, bottom = 20.dp))
     Row {
         Text(
             text = stringResource(R.string.shopping_cart_price_label),
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 25.dp)
+            modifier = Modifier.padding(start = padding24)
         )
         Text(
             text = "$totalPrice€",
@@ -157,7 +158,7 @@ fun ColumnScope.ShoppingCartBottom(totalPrice: BigDecimal, isCtaButtonEnabled: B
             textAlign = TextAlign.End
         )
     }
-    Divider1DPGray400(modifier = Modifier.padding(top = 25.dp, bottom = 20.dp))
+    Divider1DPGray400(modifier = Modifier.padding(top = padding24, bottom = 20.dp))
 
     CTAButtonGreen(
         text = stringResource(R.string.shopping_cart_cta_label),
@@ -177,7 +178,7 @@ fun ShoppingCartHeaderPreview() {
 fun ShoppingCartListPreview() {
     ShoppingCartList(
         listOf(
-            ShoppingCartItemViewModel(
+            ShoppingShoppingCartItemViewModel(
                 cartItemArticleData = CartItemArticleData(
                     articleId = 1,
                     articleIcon = R.drawable.article1,
@@ -204,7 +205,7 @@ fun ShoppingCartBottomPreview() {
 fun ShoppingCartContentPreview() {
     ShoppingCartContent(
         listOf(
-            ShoppingCartItemViewModel(
+            ShoppingShoppingCartItemViewModel(
                 cartItemArticleData = CartItemArticleData(
                     articleId = 1,
                     articleIcon = R.drawable.article1,

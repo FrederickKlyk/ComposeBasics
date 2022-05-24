@@ -15,8 +15,8 @@ import java.math.BigDecimal
 
 class ShoppingCartViewModel : BaseViewModel<ShoppingCartViewModel>() {
 
-    private val _shoppingCartItems = mutableStateListOf<ShoppingCartItemViewModel>()
-    val shoppingCartItems: SnapshotStateList<ShoppingCartItemViewModel>
+    private val _shoppingCartItems = mutableStateListOf<ShoppingShoppingCartItemViewModel>()
+    val shoppingCartItems: SnapshotStateList<ShoppingShoppingCartItemViewModel>
         get() = _shoppingCartItems
     val shoppingCartTotalPriceState: State<BigDecimal>
         get() = mutableStateOf(_shoppingCartItems.sumOf {
@@ -63,7 +63,7 @@ class ShoppingCartViewModel : BaseViewModel<ShoppingCartViewModel>() {
     )
 
     private fun toShoppingCartItemViewModel(articleId: Int, articleIcon: Int, articleName: String, articlePrice: BigDecimal, articleQuantity: Int) =
-        ShoppingCartItemViewModel(
+        ShoppingShoppingCartItemViewModel(
             cartItemArticleData = CartItemArticleData(
                 articleId = articleId,
                 articleIcon = articleIcon,
