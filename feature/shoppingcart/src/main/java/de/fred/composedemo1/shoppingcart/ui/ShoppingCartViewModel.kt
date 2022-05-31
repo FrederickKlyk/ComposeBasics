@@ -1,6 +1,5 @@
 package de.fred.composedemo1.shoppingcart.ui
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -9,31 +8,35 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
 import de.fred.composedemo1.shoppingcart.R
 import de.fred.designsystem.base.BaseViewModel
+import de.fred.designsystem.cart.CartItemArticleData
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 import java.math.BigDecimal
 
 class ShoppingCartViewModel : BaseViewModel<ShoppingCartViewModel>() {
 
-    private val _shoppingCartItems = mutableStateListOf<ShoppingShoppingCartItemViewModel>()
-    val shoppingCartItems: SnapshotStateList<ShoppingShoppingCartItemViewModel>
+    private val _shoppingCartItems = mutableStateListOf<ShoppingCartItemViewModel>()
+    val shoppingCartItems: SnapshotStateList<ShoppingCartItemViewModel>
         get() = _shoppingCartItems
+
     val shoppingCartTotalPriceState: State<BigDecimal>
         get() = mutableStateOf(_shoppingCartItems.sumOf {
             it.cartItemArticleData.articlePrice.multiply(it.cartItemArticleData.articleQuantity.toBigDecimal())
         })
 
-    private val onShoppingCartStateEvent = mutableStateOf<ShoppingCartStates>(ShoppingCartStates.Initial)
     val isCtaButtonEnabledState: State<Boolean>
         get() = handleShoppingCartState().run { mutableStateOf(!_shoppingCartItems.isEmpty()) }
 
+    private val onShoppingCartStateEvent = mutableStateOf<ShoppingCartStates>(ShoppingCartStates.Initial)
+
     init {
-        Log.d("viewModel", "launch initialize")
+        Timber.d("launch initialize")
         _shoppingCartItems.addAll(shoppingCartItemsFakeRepository())
     }
 
     fun startCashOutProcess() {
-        Log.d("shoppingCart", "cashOut Button clicked")
+        Timber.d("cashOut Button clicked")
         //TODO: TBD
     }
 
@@ -63,7 +66,7 @@ class ShoppingCartViewModel : BaseViewModel<ShoppingCartViewModel>() {
     )
 
     private fun toShoppingCartItemViewModel(articleId: Int, articleIcon: Int, articleName: String, articlePrice: BigDecimal, articleQuantity: Int) =
-        ShoppingShoppingCartItemViewModel(
+        ShoppingCartItemViewModel(
             cartItemArticleData = CartItemArticleData(
                 articleId = articleId,
                 articleIcon = articleIcon,

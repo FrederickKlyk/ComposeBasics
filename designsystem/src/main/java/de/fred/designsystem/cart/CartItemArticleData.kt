@@ -1,11 +1,6 @@
-package de.fred.composedemo1.shoppingcart.ui
+package de.fred.designsystem.cart
 
 import java.math.BigDecimal
-
-abstract class ShoppingCartItemSuperViewModel(open val cartItemArticleData: CartItemArticleData) {
-
-    abstract fun removeArticleItemFromShoppingCart()
-}
 
 data class CartItemArticleData(
     val articleId: Int,

@@ -1,0 +1,4 @@
+<resources>
+    <string name="cart_quantity">%1$sx&#160;</string>
+    <string name="cart_price">%1$s€</string>
+</resources>
