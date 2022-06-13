@@ -16,23 +16,21 @@ import java.math.BigDecimal
 
 class ShoppingCartViewModel : BaseViewModel<ShoppingCartViewModel>() {
 
-    private val _shoppingCartItems = mutableStateListOf<ShoppingCartItemViewModel>()
-    val shoppingCartItems: SnapshotStateList<ShoppingCartItemViewModel>
-        get() = _shoppingCartItems
+    val shoppingCartItems = mutableStateListOf<ShoppingCartItemViewModel>()
 
     val shoppingCartTotalPriceState: State<BigDecimal>
-        get() = mutableStateOf(_shoppingCartItems.sumOf {
+        get() = mutableStateOf(shoppingCartItems.sumOf {
             it.cartItemArticleData.articlePrice.multiply(it.cartItemArticleData.articleQuantity.toBigDecimal())
         })
 
     val isCtaButtonEnabledState: State<Boolean>
-        get() = handleShoppingCartState().run { mutableStateOf(!_shoppingCartItems.isEmpty()) }
+        get() = handleShoppingCartState().run { mutableStateOf(!shoppingCartItems.isEmpty()) }
 
     private val onShoppingCartStateEvent = mutableStateOf<ShoppingCartStates>(ShoppingCartStates.Initial)
 
     init {
         Timber.d("launch initialize")
-        _shoppingCartItems.addAll(shoppingCartItemsFakeRepository())
+        shoppingCartItems.addAll(shoppingCartItemsFakeRepository())
     }
 
     fun startCashOutProcess() {
@@ -53,8 +51,8 @@ class ShoppingCartViewModel : BaseViewModel<ShoppingCartViewModel>() {
         }.launchIn(viewModelScope)
 
     private fun removeArticleItemFromShoppingCart(articleId: Int) {
-        _shoppingCartItems.firstOrNull { it.cartItemArticleData.articleId == articleId }?.also {
-            _shoppingCartItems.remove(it)
+        shoppingCartItems.firstOrNull { it.cartItemArticleData.articleId == articleId }?.also {
+            shoppingCartItems.remove(it)
         }
     }
 
