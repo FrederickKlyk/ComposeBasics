@@ -6,7 +6,7 @@ import timber.log.Timber
 abstract class CartItemSuperViewModel(open val cartItemArticleData: CartItemArticleData) {
 
     open fun removeArticleItemFromShoppingCart(){
-        Timber.d("${cartItemArticleData.articleId} was removed!")
+        Timber.d("Article ${cartItemArticleData.articleId} was removed!")
     }
 }
 
