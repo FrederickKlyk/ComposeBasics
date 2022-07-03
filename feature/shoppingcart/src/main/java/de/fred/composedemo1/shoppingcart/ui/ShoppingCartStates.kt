@@ -4,4 +4,3 @@ sealed class ShoppingCartStates {
     object Initial : ShoppingCartStates()
     data class RemoveArticleItemFromShoppingCartEvent(val articleId: Int) : ShoppingCartStates()
 }
-

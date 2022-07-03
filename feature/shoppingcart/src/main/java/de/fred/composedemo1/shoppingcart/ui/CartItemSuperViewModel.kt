@@ -9,6 +9,3 @@ abstract class CartItemSuperViewModel(open val cartItemArticleData: CartItemArti
         Timber.d("Article ${cartItemArticleData.articleId} was removed!")
     }
 }
-
-
-
