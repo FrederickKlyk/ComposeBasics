@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="shopping_cart_header_label_first">Dein</string>
-    <string name="shopping_cart_header_label_last">Einkaufswagen</string>
-    <string name="shopping_cart_price_label">Gesamtpreis:</string>
-    <string name="shopping_cart_cta_label">Zur Kasse gehen</string>
+    <string name="shopping_cart_header_label_first">Your</string>
+    <string name="shopping_cart_header_label_last">Shopping Cart</string>
+    <string name="shopping_cart_price_label">Total price:</string>
+    <string name="shopping_cart_cta_label">Check Out</string>
 </resources>

@@ -56,10 +56,10 @@ class ShoppingCartViewModel : BaseViewModel<ShoppingCartViewModel>() {
     }
 
     private fun shoppingCartItemsFakeRepository() = listOf(
-        toShoppingCartItemViewModel(1, R.drawable.article1, "Flsenkaktus, 12cm", BigDecimal.valueOf(13.99), 1),
-        toShoppingCartItemViewModel(2, R.drawable.article2, "Tomate \"Corazon\", 150cm", BigDecimal.valueOf(8.99), 1),
-        toShoppingCartItemViewModel(3, R.drawable.article3, "Gerbera Mini, Rosa", BigDecimal.valueOf(4.95), 2),
-        toShoppingCartItemViewModel(4, R.drawable.article4, "HAVSON Topf, Ton, 29 cm", BigDecimal.valueOf(18.89), 1),
+        toShoppingCartItemViewModel(1, R.drawable.article1, "Rock cactus, 12cm", BigDecimal.valueOf(13.99), 1),
+        toShoppingCartItemViewModel(2, R.drawable.article2, "Tomato \"Corazon\", 150cm", BigDecimal.valueOf(8.99), 1),
+        toShoppingCartItemViewModel(3, R.drawable.article3, "Gerbera Mini, Pink", BigDecimal.valueOf(4.95), 2),
+        toShoppingCartItemViewModel(4, R.drawable.article4, "HAVSON Pot, Clay, 29 cm", BigDecimal.valueOf(18.89), 1),
     )
 
     private fun toShoppingCartItemViewModel(articleId: Int, articleIcon: Int, articleName: String, articlePrice: BigDecimal, articleQuantity: Int) =

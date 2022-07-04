@@ -25,6 +25,7 @@ import de.fred.designsystem.text.Text.Text16spBoldBlackUnderlineEnd
 import de.fred.designsystem.text.Text.Text18spBoldBlack
 import de.fred.designsystem.text.Text.Text18spBoldGreen
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 @Composable // stateful composable function
 fun ShoppingCartContent(viewModel: ShoppingCartViewModel) {
@@ -116,9 +117,9 @@ fun ShoppingCartListPreview() {
                 cartItemArticleData = CartItemArticleData(
                     articleId = 1,
                     articleIcon = R.drawable.article1,
-                    articleName = "Kaktus",
-                    articlePrice = BigDecimal(2),
-                    articleQuantity = 1
+                    articleName = "Rock cactus, 12cm",
+                    articlePrice = BigDecimal(13.99).setScale(2, RoundingMode.DOWN),
+                    articleQuantity = 2
                 ),
                 onShoppingCartStateEvent = remember { mutableStateOf(ShoppingCartStates.Initial) }
             ),
@@ -126,8 +127,8 @@ fun ShoppingCartListPreview() {
                 cartItemArticleData = CartItemArticleData(
                     articleId = 2,
                     articleIcon = R.drawable.article2,
-                    articleName = "Obst",
-                    articlePrice = BigDecimal(3.50),
+                    articleName = "Tomato \"Corazon\", 150cm",
+                    articlePrice = BigDecimal(8.99).setScale(2, RoundingMode.DOWN),
                     articleQuantity = 2
                 ),
                 onShoppingCartStateEvent = remember { mutableStateOf(ShoppingCartStates.Initial) }
@@ -140,7 +141,7 @@ fun ShoppingCartListPreview() {
 @Composable
 fun ShoppingCartBottomPreview() {
     Column {
-        ShoppingCartBottom(BigDecimal.valueOf(11), true) { }
+        ShoppingCartBottom(BigDecimal(13.37).setScale(2, RoundingMode.UP), true) { }
     }
 }
 
@@ -153,7 +154,7 @@ fun ShoppingCartContentPreview() {
                 cartItemArticleData = CartItemArticleData(
                     articleId = 1,
                     articleIcon = R.drawable.article1,
-                    articleName = "Kaktus",
+                    articleName = "Rock cactus, 12cm",
                     articlePrice = BigDecimal(2),
                     articleQuantity = 1
                 ),
@@ -164,3 +165,15 @@ fun ShoppingCartContentPreview() {
         true
     ) {}
 }
+
+
+
+
+
+
+
+
+
+
+
+
