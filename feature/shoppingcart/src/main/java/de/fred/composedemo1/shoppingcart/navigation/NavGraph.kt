@@ -6,7 +6,7 @@ import androidx.navigation.navigation
 import de.fred.composedemo1.navigation.NavTarget
 import de.fred.composedemo1.shoppingcart.ui.ShoppingCartContent
 import de.fred.composedemo1.shoppingcart.ui.ShoppingCartViewModel
-import org.koin.androidx.compose.viewModel
+import org.koin.androidx.compose.getViewModel
 
 fun NavGraphBuilder.addShoppingCartGraph(popBackStack: () -> Unit) {
     navigation(
@@ -14,7 +14,7 @@ fun NavGraphBuilder.addShoppingCartGraph(popBackStack: () -> Unit) {
         route = NavTarget.ShoppingCartModule.label
     ) {
         composable(route = NavTarget.ShoppingCartFeature.label) {
-            val viewModel: ShoppingCartViewModel by viewModel()
+            val viewModel: ShoppingCartViewModel = getViewModel()
             ShoppingCartContent(viewModel = viewModel)
         }
     }

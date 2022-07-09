@@ -8,7 +8,6 @@ import de.fred.composedemo1.ui.DetailScreenViewModel
 import de.fred.composedemo1.ui.HomeScreenContent
 import de.fred.composedemo1.ui.MainViewModel
 import org.koin.androidx.compose.getViewModel
-import org.koin.androidx.compose.viewModel
 
 fun NavGraphBuilder.addMainGraph(popBackStack: () -> Unit) {
     navigation(NavTarget.Home.label, NavTarget.RootModule.label) {
@@ -19,7 +18,7 @@ fun NavGraphBuilder.addMainGraph(popBackStack: () -> Unit) {
             HomeScreenContent(viewModel)
         }
         composable(NavTarget.Detail.label) {
-            val viewModel: DetailScreenViewModel by viewModel()
+            val viewModel: DetailScreenViewModel = getViewModel()
             //val viewModel: DetailScreenViewModel = hiltViewModel()
             DetailScreen(viewModel)
         }
