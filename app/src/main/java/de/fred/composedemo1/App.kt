@@ -7,6 +7,7 @@ import de.fred.composedemo1.navigation.di.navigationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber
+import de.fred.composedemo1.flows.di.uiModule as flowsUiModule
 import de.fred.composedemo1.secondfeature.di.uiModule as secondFeatureUiModule
 import de.fred.composedemo1.shoppingcart.di.uiModule as shoppingCartUiModule
 import de.fred.composedemo1.thirdfeature.di.uiModule as thirdFeatureUiModule
@@ -26,7 +27,8 @@ class App : Application() {
                 uiModule,
                 secondFeatureUiModule,
                 thirdFeatureUiModule,
-                shoppingCartUiModule
+                shoppingCartUiModule,
+                flowsUiModule
             )
         }
     }

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import de.fred.composedemo1.flows.navigation.addFlowsFeatureGraph
 import de.fred.composedemo1.secondfeature.navigation.addSecondFeatureGraph
 import de.fred.composedemo1.shoppingcart.navigation.addShoppingCartGraph
 import de.fred.composedemo1.thirdfeature.navigation.addThirdFeatureGraph
@@ -37,5 +38,6 @@ fun NavigationComponent(
         addSecondFeatureGraph() { navController.popBackStack() }
         addThirdFeatureGraph() { navController.popBackStack() }
         addShoppingCartGraph { navController.popBackStack() }
+        addFlowsFeatureGraph { navController.popBackStack() }
     }
 }

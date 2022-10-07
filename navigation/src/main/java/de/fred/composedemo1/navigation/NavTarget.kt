@@ -15,6 +15,9 @@ sealed class NavTarget(val label: String) {
 
     object ShoppingCartModule : NavTarget(ModuleRoutes.ShoppingCartModule.label)
     object ShoppingCartFeature : NavTarget(ModuleRoutes.ShoppingCartFeature.label)
+
+    object FlowsFeatureModule : NavTarget(ModuleRoutes.FlowsModule.label)
+    object FlowsFeature : NavTarget(ModuleRoutes.FlowsFeature.label)
 }
 
 // Screen Targets
@@ -28,4 +31,6 @@ enum class ModuleRoutes(val label: String) {
     SecondFeature("secondfeature"),
     ThirdFeature("thirdfeature"),
     ShoppingCartFeature("shoppingcartfeature"),
+    FlowsModule("flowsModule"),
+    FlowsFeature("flowsFeature"),
 }

@@ -45,7 +45,6 @@ import de.fred.designsystem.buttons.Buttons.DefaultButton
 import de.fred.designsystem.buttons.Buttons.DefaultFAB
 import de.fred.designsystem.buttons.DefaultDrawer
 import de.fred.designsystem.buttons.DefaultTopBar
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
 
 @AndroidEntryPoint
@@ -121,6 +120,7 @@ fun ContentComponent(
                     DrawerRoute("Second Module", SecondFeatureModule.SecondModuleWithParams("Drawer")),
                     DrawerRoute("Third Module", ThirdModule),
                     DrawerRoute("Shoppingcart", ShoppingCartModule),
+                    DrawerRoute("flows", FlowsFeatureModule),
                 ),
                 onDestinationClicked = { route ->
                     navigateToSpecificView(route)
