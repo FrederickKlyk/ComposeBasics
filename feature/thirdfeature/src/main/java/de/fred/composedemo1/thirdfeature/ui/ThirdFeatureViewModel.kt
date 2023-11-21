@@ -9,10 +9,14 @@ class ThirdFeatureViewModel(
 ) : BaseViewModel<ThirdFeatureViewModel>() {
 
     fun navigateToSecondFeatureModule() {
-        navigator.navigateTo(NavTarget.SecondFeatureModule.SecondFeatureWithParams("IdVonThirdFeature"))
+        navigator.navigateTo(NavTarget.SecondFeatureModule.SecondFeatureWithParams(EXAMPLE_ID))
     }
 
     fun navigateToShoppingCart() {
         navigator.navigateTo(NavTarget.ShoppingCartModule)
+    }
+
+    companion object {
+        const val EXAMPLE_ID = "1337"
     }
 }

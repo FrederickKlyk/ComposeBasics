@@ -10,7 +10,7 @@ import de.fred.composedemo1.ui.MainViewModel
 import org.koin.androidx.compose.getViewModel
 
 fun NavGraphBuilder.addMainGraph(popBackStack: () -> Unit) {
-    navigation(NavTarget.Home.label, NavTarget.RootModule.label) {
+    navigation(startDestination = NavTarget.Home.label, route = NavTarget.RootModule.label) {
 
         composable(NavTarget.Home.label) {
             val viewModel: MainViewModel = getViewModel()
