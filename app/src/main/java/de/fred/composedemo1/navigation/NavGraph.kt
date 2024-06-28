@@ -11,16 +11,15 @@ import org.koin.androidx.compose.getViewModel
 
 fun NavGraphBuilder.addMainGraph(popBackStack: () -> Unit) {
     navigation(NavTarget.Home.label, NavTarget.RootModule.label) {
-
         composable(NavTarget.Home.label) {
-            val viewModel: MainViewModel = getViewModel()
-            //val viewModel: MainViewModel = hiltViewModel()
-            HomeScreenContent(viewModel)
+            val viewModelKoin: MainViewModel = getViewModel()
+            // val viewModelHilt: MainViewModel = hiltViewModel()
+            HomeScreenContent(viewModelKoin)
         }
         composable(NavTarget.Detail.label) {
-            val viewModel: DetailScreenViewModel = getViewModel()
-            //val viewModel: DetailScreenViewModel = hiltViewModel()
-            DetailScreen(viewModel)
+            val viewModelKoin: DetailScreenViewModel = getViewModel()
+            // val viewModelHilt: DetailScreenViewModel = hiltViewModel()
+            DetailScreen(viewModelKoin)
         }
     }
 }

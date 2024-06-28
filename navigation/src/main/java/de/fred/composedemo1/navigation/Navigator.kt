@@ -8,7 +8,6 @@ import javax.inject.Singleton
 
 @Singleton
 class Navigator @Inject constructor() {
-
     private val _sharedFlow = MutableSharedFlow<NavTarget>(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     val sharedFlow = _sharedFlow.asSharedFlow()
 
