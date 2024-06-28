@@ -7,7 +7,6 @@ import de.fred.designsystem.base.BaseViewModel
 class ThirdFeatureViewModel(
     private val navigator: Navigator,
 ) : BaseViewModel<ThirdFeatureViewModel>() {
-
     fun navigateToSecondFeatureModule() {
         navigator.navigateTo(NavTarget.SecondFeatureModule.SecondFeatureWithParams(EXAMPLE_ID))
     }
@@ -16,7 +15,7 @@ class ThirdFeatureViewModel(
         navigator.navigateTo(NavTarget.ShoppingCartModule)
     }
 
-    companion object{
+    companion object {
         const val EXAMPLE_ID = "1337"
     }
 }

@@ -16,12 +16,14 @@ fun NavigationComponent(
     navController: NavHostController,
     navigator: Navigator,
 ) {
+    val launchedEffectNavigationLabel = "navigation"
+
     /**
      * With LaunchedEffect we create a CoroutineScope that is started as soon as our composable component is createdtestSTATE
      * and canceled as soon as the composition is removed.
      * As a result, whenever Navigator.navigateTo() is called, this snippet listens to it and performs the actual transition.
      */
-    LaunchedEffect("navigation") {
+    LaunchedEffect(launchedEffectNavigationLabel) {
         navigator.sharedFlow.onEach {
             navController.navigate(it.label) {
                 popUpTo(it.label) // wichtig, damit der backstack aus unique nav entries besteht (auf Parameter achten)
